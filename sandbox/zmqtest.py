@@ -12,6 +12,7 @@ while True:
     msg_dict = {
         "route": "topic",
         "data": {
+            "topic_name": "/cmd_vel",
             "msg_type": "geometry_msgs/Twist",
             "msg": {
                 "linear": {

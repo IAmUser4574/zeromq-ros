@@ -6,6 +6,11 @@ import json
 #  Dictionary containing a mapping from route to callback
 callback_functions = dict()
 
+#  Default queue size used by the ROS publishers
+DEFAULT_QUEUE_SIZE = 10
+
+#  Publisher dictionary
+publishers = dict()
 
 class route(object):
 

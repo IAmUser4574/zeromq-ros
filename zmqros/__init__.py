@@ -2,6 +2,9 @@
 __author__ = "Alexander Wallar <aw204@st-andrews.ac.uk>"
 
 
+from master import Master
+
+
 def run(host, port):
     """
 

@@ -22,5 +22,6 @@ def run(host, port):
 
     import config
     import topics
+    import afrluav
 
     config.run(host, int(port))

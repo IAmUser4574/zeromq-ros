@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MDM SYSTEM 'MDM.DTD'>
+
+<!--
+        <h2>Introduction</h2>
+        Message definitions for the VICS scenario
+-->
+<MDM>
+    <SeriesName>VICS</SeriesName>
+    <Namespace>afrl/vics</Namespace>
+    <Version>17</Version>
+
+	<EnumList>
+	
+        <!-- Lists the states of the road monitoring mission. -->
+        <Enum Name="State">
+            <Entry Name="NoState" Value="0"/>
+            <Entry Name="Unknown" Value="1"/>
+            <Entry Name="Patrol" Value="2"/>
+            <Entry Name="Isolate" Value="3"/>
+            <Entry Name="Capture" Value="4"/>
+            <Entry Name="Deliver" Value="5"/>
+            <Entry Name="Response" Value="6"/>
+        </Enum>
+		
+		<!-- Identifier for the type of payload data being
+			included in the message. -->
+        <Enum Name="PayloadType">
+			<Entry Name="NoPayload" Value="0"/>
+			<Entry Name="Unknown" Value="1"/>
+			<Entry Name="Text" Value="2"/>
+            <Entry Name="Image" Value="3"/>
+            <Entry Name="Video" Value="4"/>
+			<Entry Name="Audio" Value="5"/>
+        </Enum>
+        
+		<!-- Items that can be independently powered on and off -->
+        <Enum Name="PayloadPowerItem">
+			<Entry Name="WiFi" Value="0"/>
+			<Entry Name="VideoTransmitter" Value="1"/>
+			<Entry Name="ExternalCamera" Value="2"/>
+            <Entry Name="AxisBox" Value="3"/>
+        </Enum>
+		
+		<!-- Detected type of intruder -->
+        <Enum Name="IntruderType">
+            <Entry Name="NoDetection" Value="0"/>
+            <Entry Name="Unknown" Value="1"/>
+            <Entry Name="UGSDetect" Value="2"/>
+            <Entry Name="Dismount" Value="3"/>
+            <Entry Name="FourWheeledVehicle" Value="4"/>
+            <Entry Name="TreadedVehicle" Value="5"/>
+        </Enum>
+		
+		<!-- Possible status when querying UGS -->
+        <Enum Name="UgsStatus">
+            <Entry Name="Green" Value="0"/>
+            <Entry Name="Red" Value="1"/>
+        </Enum>
+		
+		<!-- Requestor type -->
+        <Enum Name="VicsEntityType">
+            <Entry Name="Unknown" Value="0"/>
+            <Entry Name="VSCS_Ground" Value="1"/>
+            <Entry Name="Dismount" Value="2"/>
+            <Entry Name="Aircraft" Value="3"/>
+            <Entry Name="UGS" Value="4"/>
+        </Enum>
+		
+		<!-- The Type of VICS Message. -->
+		<Enum Name="MessageType">
+			<Entry Name="DismountMessage" Value="0" />
+			<Entry Name="StateTransition" Value="1" />
+			<Entry Name="IntruderAlert" Value="2" />
+		</Enum>
+		
+		<!-- User-readable priority for dismount messages -->
+		<Enum Name="MessagePriority">
+			<Entry Name="Low" Value="0" />
+			<Entry Name="Normal" Value="1" />
+			<Entry Name="High" Value="2" />
+		</Enum>
+		
+		<!-- Possible values for fuzzy update of edge probabilities.
+        'VeryUnlikely' corresponds to 10%, 'SomewhatUnlikely' corresponds to 30%,
+        'Neutral' corresponds to 50%, 'SomewhatLikely' corresponds to 70%,
+        'VeryLikely' corresponds to 90% -->
+		<Enum Name="FuzzyEdgeValue">
+			<Entry Name="VeryUnlikely" Value="0" />
+			<Entry Name="SomewhatUnlikely" Value="1" />
+			<Entry Name="Neutral" Value="2" />
+			<Entry Name="SomewhatLikely" Value="3" />
+			<Entry Name="VeryLikely" Value="4" />
+		</Enum>
+		
+		<!-- Methods for conducting area search -->
+		<Enum Name="AreaSearchStrategy">
+			<Entry Name="ParallelSweep" Value="0" />
+			<Entry Name="ExpandingSquare" Value="1" />
+			<Entry Name="SectorSearch" Value="2" />
+		</Enum>
+		
+		<!-- Methods for conducting line search -->
+		<Enum Name="LineSearchStrategy">
+			<Entry Name="Straight" Value="0" />
+			<Entry Name="TrackCrawl" Value="1" />
+			<Entry Name="CreepingLine" Value="2" />
+		</Enum>
+        
+		<!-- Isolation controller reasons for termination -->
+		<Enum Name="IsolationTerminationReason">
+			<Entry Name="FalseAlarm" Value="0" />
+			<Entry Name="IntruderEscape" Value="1" />
+			<Entry Name="IntruderCapture" Value="2" />
+		</Enum>
+		
+	</EnumList>
+	
+    <StructList>
+	
+		<!-- Base message for many VICS messages. Every entity must have uniquely
+        identifiable message IDs such that given an originator ID and message ID,
+        the specific message is uniquely identified. -->
+		<Struct Name="VicsBase" >
+			<!-- A unique message ID for all messages from originator entity -->
+			<Field Name="MessageId" Type="uint32" Units="None" Default="0" />
+			<!-- A unique ID for the entity that generated the message -->
+            <Field Name="OriginatorId" Type="uint32" Units="None" Default="0" />
+			<!-- ID of the immediate sender of this message (not necessarily the originator) -->
+            <Field Name="SenderId" Type="uint32" Units="None" Default="0" />
+			<!-- A unique ID to indicate that specific messages are associated in the same group -->
+            <Field Name="GroupId" Type="uint32" Units="None" Default="0" />
+			<!-- The type of entity generating the message -->
+			<Field Name="OriginatorType" Type="VicsEntityType" Series="VICS" />
+			<!-- Time stamp of when the message was generated. -->
+			<Field Name="TimeStamp" Type="uint32" Units="seconds since 1 Jan 1970" />
+			<!-- Priority of the message -->
+			<Field Name="Priority" Type="MessagePriority" Series="VICS" Default="Normal" />
+		</Struct>
+	
+		<!-- Sent in response to any message on a TCP/IP connection -->
+		<Struct Name="VicsAck">
+			<!-- ID of message received -->
+			<Field Name="ReceivedMessageId" Type="uint32" Units="None" />
+			<!-- The unique ID for the received message originator -->
+            <Field Name="ReceivedOriginatorId" Type="uint32" Units="None" />
+			<!-- Number of bytes that were received -->
+			<Field Name="ReceivedNumberOfBytes" Type="uint32" Units="None" />
+		</Struct>
+		
+		<!-- Tasks to be defined: (1) Pickup, (2) Deliver, (3) Comm transfer, (4) Patrol, (5) UGS Management 
+                                  (6) MeetMe, (7) Image area, (8) Image line, (9) Image point -->
+		
+		<!-- Request UAV to visit a location and pickup messages -->
+		<Struct Name="PickupMessageTask" Extends="Task" Series="CMASI" >
+			<!-- Location of pickup -->
+			<Field Name="PickupLocation" Type="Location3D" Series="CMASI" />
+			<!-- Timeout at location for establishing communication (timer starts when reaching pickup location). If this timer elapsed after initially establishing communincation, then the comm channel is assumed to be broken and the UAV continues to the next task. -->
+			<Field Name="Timeout" Type="uint32" Units="seconds" />
+			<!-- Message requests to be sent at pickup location upon establishing communication. Positively received messages reset timeout time. -->
+			<Field Name="PickupRequests" Type="MessageRequest[]" Series="VICS" />
+		</Struct>
+		
+		<!-- Request UAV to visit a location and deliver messages -->
+		<Struct Name="DeliverMessageTask" Extends="Task" Series="CMASI" >
+			<!-- Location of delivery -->
+			<Field Name="DeliverLocation" Type="Location3D" Series="CMASI" />
+			<!-- Timeout at location for establishing communication (timer starts when reaching pickup location). If this timer elapsed after initially establishing communincation, then the comm channel is assumed to be broken and the UAV continues to the next task. -->
+			<Field Name="Timeout" Type="uint32" Units="seconds" />
+			<!-- Index into stored data of all messages to be delivered. Assumes that all messages have already been uploaded to the aircraft. -->
+			<Field Name="DeliveryMessages" Type="MessageRequest[]" Series="VICS" />
+		</Struct>
+		
+		<!-- Request UAV to visit a location, establish connection and handshake all non-payload messages -->
+		<Struct Name="CommTransferTask" Extends="Task" Series="CMASI" >
+			<!-- Location of node with which to establish comm -->
+			<Field Name="CommLocation" Type="Location3D" Series="CMASI" />
+			<!-- Communication timeout at this location -->
+			<Field Name="Timeout" Type="uint32" Units="seconds" />
+		</Struct>
+        
+		<!-- Patrol task for establishing constant circuit visit to a set of locations -->
+		<Struct Name="PatrolTask" Extends="Task" Series="CMASI" >
+			<!-- Location of positions to visit on patrol -->
+			<Field Name="VisitLocations" Type="CommTransferTask[]" Series="VICS" />
+		</Struct>
+        
+		<!-- Persistent super-task for managing sub-tasks related to patrol, isolation, capture and delivery.
+        This task should be requested from the control station as the only task to be completed after submitting
+        the applicable keep-in and keep-out zones. The AutomationRequest message that initiates the start of this
+        task is preserved for all subsequent sub-tasks that are generated by this task (i.e. altitude and speed
+        constraints set by the AutomationRequest and applicable zones are used to compute the parameters in the
+        relevant sub-tasks). -->
+		<Struct Name="UgsManagementTask" Extends="Task" Series="CMASI" >
+			<!-- Road network and UGS locations -->
+            <Field Name="UgsPlacement" Type="UgsLaydown" Series="VICS" />
+            <!-- Intended UAVs to complete this UGS Management Task -->
+            <Field Name="UavId" Type="uint32[]" />
+		</Struct>
+        
+        <!-- Command UAV to execute subtasks either in strict order or determined by optimization.
+        Replaces all current sub-tasks being executed. In addtion to executing the sub-tasks, the
+        mission command used to complete the sub-tasks is returned. -->
+        <Struct Name="SubTaskExecution" >
+            <!-- List of tasks that current UAV should complete -->
+            <Field Name="SubTasks" Type="Task[]" Series="CMASI" />
+            <!-- Enable strict ordering -->
+            <Field Name="StrictOrder" Type="bool" Default="false" />
+        </Struct>
+		
+		<!-- Task to position a UAV at a location for use by dismount. Timeout is determined by the loiter duration -->
+		<Struct Name="MeetMeTask" Extends="LoiterTask" Series="CMASI" >
+			<!-- Wall clock time to be at the rendezvous location -->
+			<Field Name="RendezvousTime" Type="uint32" Units="seconds since 1 Jan 1970" />
+		</Struct>
+		
+		<!-- Overloads the area search task to include options for image data gathering -->
+		<Struct Name="ImageAreaSearchTask" Extends="AreaSearchTask" Series="CMASI">
+			<!-- Search strategy: expanding square, sector search, lawnmower -->
+			<Field Name="SearchStrategy" Type="AreaSearchStrategy" Series="VICS" Default="ParallelSweep" />
+			<!-- Indicates if video should be stored during the execution of this task -->
+			<Field Name="CaptureVideo" Type="bool" Default="true" />
+			<!-- Indicates whether the wing camera is used in ground overlap or time sample mode -->
+			<Field Name="UseWingCameraGroundOverlap" Type="bool" Default="true" />
+			<!-- Overlap in meters between subsequent pictures. -->
+			<Field Name="WingCameraGroundOverlap" Type="real32" Units="meters" />
+			<!-- Rate at which the camera is activated. If zero, not used. -->
+			<Field Name="WingCameraSnapRate" Type="real32" Units="seconds" />	
+			<!-- Indicates whether the still gimballed camera is used in ground overlap or time sample mode -->
+			<Field Name="UseVideoFrameGroundOverlap" Type="bool" Default="true" />
+			<!-- Overlap in meters between subsequent pictures. -->
+			<Field Name="VideoFrameGroundOverlap" Type="real32" Units="meters" />
+			<!-- Rate at which the camera is activated. If zero, not used. -->
+			<Field Name="VideoFrameSnapRate" Type="real32" Units="seconds" />
+		</Struct>
+		
+		<!-- Overloads the line search task to include options for image data gathering -->
+		<Struct Name="ImageLineSearchTask" Extends="LineSearchTask" Series="CMASI">
+			<!-- Search strategy: straight, track crawl, creeping line -->
+			<Field Name="SearchStrategy" Type="LineSearchStrategy" Series="VICS" Default="Straight" />
+			<!-- Indicates if video should be stored during the execution of this task -->
+			<Field Name="CaptureVideo" Type="bool" Default="true" />
+			<!-- Indicates whether the wing camera is used in ground overlap or time sample mode -->
+			<Field Name="UseWingCameraGroundOverlap" Type="bool" Default="true" />
+			<!-- Overlap in meters between subsequent pictures. -->
+			<Field Name="WingCameraGroundOverlap" Type="real32" Units="meters" />
+			<!-- Rate at which the camera is activated. If zero, not used. -->
+			<Field Name="WingCameraSnapRate" Type="real32" Units="seconds" />
+			<!-- Indicates whether the still gimballed camera is used in ground overlap or time sample mode -->
+			<Field Name="UseVideoFrameGroundOverlap" Type="bool" Default="true" />
+			<!-- Overlap in meters between subsequent pictures. -->
+			<Field Name="VideoFrameGroundOverlap" Type="real32" Units="meters" />
+			<!-- Rate at which the camera is activated. If zero, not used. -->
+			<Field Name="VideoFrameSnapRate" Type="real32" Units="seconds" />
+		</Struct>
+		
+		<!-- Overloads the point search task to include options for image data gathering. Video or images are taken for the duration of the task from the standoff point to the requested image point -->
+		<Struct Name="ImagePointSearchTask" Extends="PointSearchTask" Series="CMASI">
+			<!-- Indicates if video should be stored during the execution of this task -->
+			<Field Name="CaptureVideo" Type="bool" Default="true" />
+			<!-- Indicates whether the wing camera is used in ground overlap or time sample mode -->
+			<Field Name="UseWingCameraGroundOverlap" Type="bool" Default="true" />
+			<!-- Overlap in meters between subsequent pictures. -->
+			<Field Name="WingCameraGroundOverlap" Type="real32" Units="meters" />
+			<!-- Rate at which the camera is activated. If zero, not used. -->
+			<Field Name="WingCameraSnapRate" Type="real32" Units="seconds" />
+			<!-- Indicates whether the still gimballed camera is used in ground overlap or time sample mode -->
+			<Field Name="UseVideoFrameGroundOverlap" Type="bool" Default="true" />
+			<!-- Overlap in meters between subsequent pictures. -->
+			<Field Name="VideoFrameGroundOverlap" Type="real32" Units="meters" />
+			<!-- Rate at which the camera is activated. If zero, not used. -->
+			<Field Name="VideoFrameSnapRate" Type="real32" Units="seconds" />
+		</Struct>
+	
+		<!-- Represents a state change during the patrol mission. During the Isolate state,
+        a state transition of re-directing to a new UGS for investigation should also be
+        reported as a state transition (e.g. Isolate going to UGS3, then Isolate going to UGS7). -->
+		<Struct Name="StateTransition" Extends="VicsBase" Series="VICS" >
+			<!-- The State that the transition event is going to.  -->
+			<Field Name="State" Type="State" Series="VICS" />
+			 <!-- Brief description of payload data included -->
+            <Field Name="PayloadDescription" Type="string" />
+			 <!-- Data associated with the state transition -->
+            <Field Name="Payload" Type="PayloadData" Series="VICS" />
+			<!-- The ID of the Unattended Ground Sensor it is traveling to, or 0 if destination is not an UGS. -->
+			<Field Name="UgsId" Type="uint32" Units="None" />
+		</Struct>
+		
+		<!-- Occurs when a vehicle relays a message from a dismount in the field.  -->
+		<Struct Name="DismountMessage" Extends="VicsBase" Series="VICS" >
+			<!-- This is the actual payload data. -->
+			<Field Name="Payload" Type="PayloadData" Series="VICS" />	
+			<!-- Brief message description -->
+			<Field Name="Description" Type="string" />
+			<!-- The (optional) location at which payload was generated  -->
+			<Field Name="Location" Type="Location3D" Series="CMASI" Default="null" />
+		</Struct>
+		
+		<!-- Occurs when a UGS detects an object.  -->
+		<Struct Name="IntruderAlert" Extends="VicsBase" Series="VICS" >
+			<!-- The location at which the object was detected.  -->
+			<Field Name="DetectionLocation" Type="Location3D" Series="CMASI" />
+			<!-- Optional UGS ID of unit that detected the intruder. A value of 0 indicates no UGS performed the detection. -->
+			<Field Name="UgsId" Type="uint32" Default="0" />
+			<!-- Type of intruder detected. If NoDetection, no need for specifying intruder speed and direction -->
+			<Field Name="Intruder" Type="IntruderType" Series="VICS" />
+			<!-- The speed at which the detected object is going.  -->
+			<Field Name="ObjectSpeed" Type="real32" Units="meter/sec" /> 
+			<!-- The direction in which the detected object is moving referenced from true north.  -->
+			<Field Name="ObjectDirection" Type="real32" Units="degrees" />
+			 <!-- Brief description of payload data included -->
+            <Field Name="PayloadDescription" Type="string" />
+			<!-- This is the actual payload data.  Each payload stored in row by row format.  -->
+			<Field Name="Payload" Type="PayloadData" Series="VICS" />		
+		</Struct>
+        
+        <!-- Configuration message for setting up the UGS wirelessly over multicast channel -->
+        <Struct Name="UgsConfiguration" >
+            <!-- ID of UGS to configure -->
+            <Field Name="UgsId" Type="uint32" />
+            <!-- Default behavior of radar sensor -->
+            <Field Name="DefaultRadarEnable" Type="bool" Default="true" />
+            <!-- Direction (angle from true north, positive clockwise) that the radar sensor is aimed after placement -->
+            <Field Name="HeadingAngle" Type="real32" Units="degrees" />
+        </Struct>
+      
+        <!-- Request for UGS status over multicast channel -->
+        <Struct Name="UgsStatusRequest" >
+        </Struct>
+      
+        <!-- UGS current status sent over multicast channel in response to UgsStatusRequest -->
+        <Struct Name="UgsStatusResponse" Extends="VicsBase" Series="VICS" >
+            <!-- Default behavior of radar sensor -->
+            <Field Name="DefaultRadarEnable" Type="bool" Default="true" />
+            <!-- Direction (angle from true north, positive clockwise) that the radar sensor is aimed after placement -->
+            <Field Name="HeadingAngle" Type="real32" Units="degrees" />
+            <!-- Reported lat/lon location. Null if not yet aquired GPS location -->
+            <Field Name="ReportedLocation" Type="Location3D" Series="CMASI" />
+            <!-- Reported time -->
+            <Field Name="CurrentTime" Type="uint32" Units="seconds since 1 Jan 1970" />
+        </Struct>
+      
+        <!-- Allow dismount to selectively enable or disable radar -->
+		<Struct Name="RadarEnableMessage" >
+			<!-- Indicates whether to enable or disable the radar after message reception and for time 'TimeOut' -->
+			<Field Name="EnableRadar" Type="bool" Default="true" />
+			<!-- Time out to revert to default UGS configuration -->
+			<Field Name="TimeOut" Type="real32" Units="seconds" />
+		</Struct>
+		
+		<!-- Occurs when a dismount broadcasts their location. The entity with the larger ID 
+		acts as the server when both entities are capable of establishing server connections. -->
+		<Struct Name="HeartbeatMessage" Extends="VicsBase" Series="VICS" >
+			<!-- Server IP Address  -->
+			<Field Name="ServerIpAddress" Type="string" Units="IPAddress" />
+			<!-- Server port number -->
+			<Field Name="ServerPortNumber" Type="uint32" Units="None" />
+			<!-- Location of the broadcasting server  -->
+			<Field Name="Location" Type="Location3D" Series="CMASI" />
+		</Struct>
+		
+		<!-- In response to the broadcasting server, this message is sent on connection -->
+		<Struct Name="HeartbeatResponse" Extends="VicsBase" Series="VICS" >
+			<!-- IP Address of the entity responding to the server broadcast -->
+			<Field Name="ClientIpAddress" Type="string" Units="IPAddress" />
+		</Struct>
+		
+		<!-- A possible array of payload data. -->
+		<Struct Name="PayloadData">
+			<!-- The byte array of payload data. Can be blank to show presence of a stored message. -->
+			<Field Name="Data" Type="byte[]" Units="None" LargeArray="true" />
+			<!-- Payload from the time of the event.  Could be nothing, text, images or video.  -->
+			<Field Name="PayloadType" Type="PayloadType" Series="VICS" Default="NoPayload"/>
+			<!-- Expected payload size: not to be used for index in Data field. -->
+			<Field Name="ExpectedPayloadSize" Type="uint32" Units="None"/>
+		</Struct>
+		
+		<!-- Contains a list of responses in answer to a MessageQuery (note: over tcp/ip channel) -->
+		<Struct Name="QueryResponse" Extends="VicsBase" Series="VICS" >
+			<!-- The list of responses -->
+			<Field Name="ResponseMessages" Type="GlobalMessageId[]" Series="VICS" />
+		</Struct>
+	
+		<!-- Identifier for a VICS message based on sender ID and message ID. Should be unique for the entire system -->
+		<Struct Name="GlobalMessageId" >
+			<!-- Sender ID of the message -->
+			<Field Name="OriginatorId" Type="uint32" Default="0" />
+			<!-- Specific ID of message unique to the sender -->
+			<Field Name="MessageId" Type="uint32" Default="0" />
+		</Struct>
+		
+		<!-- Contains a list of queries for requested types of messages. -->
+		<Struct Name="MessageQuery" Extends="VicsBase" Series="VICS">
+			<!-- The list of queries. -->
+			<Field Name="Queries" Type="MessageRequest[]" Series="VICS" />
+		</Struct>
+		
+		<!-- Represents a request to an entity for a set of messages of the same type in a given time span defined by the requestor. If the time span is (0,0) then all messages since the last time these entities talked is returned. If all messages since the begining are desired, send (0,now). The requestee responds with all messages of that type it has logged within that time span stripping off all payload data. If the MessageId is non-zero, then the time span is ignored and the full message matching that ID is returned (including all payload data upto 6MB). -->
+		<Struct Name="MessageRequest" Series="VICS">
+			<!-- The type of message being requested in the VICS Series. -->
+			<Field Name="RequestType" Type="MessageType" Series="VICS" />
+			<!-- The start time for the messages being requested. -->
+			<Field Name="StartTime" Type="uint32" Units="seconds since 1 Jan 1970" Default="0" />
+			<!-- The end time for the messages being requested. -->
+			<Field Name="EndTime" Type="uint32" Units="seconds since 1 Jan 1970" Default="0" />
+			<!-- Sender ID of message that should be delivered in full -->
+			<Field Name="OriginatorId" Type="uint32" Default="0" />
+			<!-- Specific ID of message that should be delivered in full -->
+			<Field Name="MessageId" Type="uint32" Default="0" />
+		</Struct>
+		
+		
+        <!-- Defines a simple Euclidean location in the plane -->
+        <Struct Name="LocationXY">
+            <!-- Position in the X direction -->
+            <Field Name="x" Type="real32" Units="meters" />
+            <!-- Position in the Y direction -->
+            <Field Name="y" Type="real32" Units="meters" />
+        </Struct>
+	  
+        <!-- Edge -->
+        <Struct Name="EdgePairProbability">
+            <!-- Entry Edge ID -->
+            <Field Name="EntryEdgeId" Type="uint32" />
+            <!-- Exit Edge ID -->
+            <Field Name="ExitEdgeId" Type="uint32" />
+            <!-- Probability of transition from Entry edge to Exit edge -->
+            <Field Name="TransitionProbability" Type="real32" Units="normalized probability" />
+        </Struct>
+	  
+        <!-- Defines a base node for a geo-spacial network. -->
+        <Struct Name="NetworkNode">
+            <!-- Unique ID for the node, used to build edges between nodes -->
+            <Field Name="NodeId" Type="uint32" Units="None" />
+            <!-- ID of edges entering this node -->
+            <Field Name="InboundEdges" Type="uint32[]" />
+            <!-- ID of edges exiting this node -->
+            <Field Name="OutboundEdges" Type="uint32[]" />
+            <!-- Probability that intruder will exit on a particular edge when entering on a specific edge -->
+            <Field Name="TurnProbabilities" Type="EdgePairProbability[]" Series="VICS" />
+        </Struct>
+	  
+        <!-- Defines a node for a spacial network in the simple XY plane. -->
+        <Struct Name="NetworkNodeXY" Extends="NetworkNode" Series="VICS" >
+            <!-- Local coordinates of node -->
+            <Field Name="Coordinates" Type="LocationXY" Series="VICS" />
+        </Struct>
+	  
+        <!-- Defines a node for a spacial network described in Lat/Lon/Alt. -->
+        <Struct Name="NetworkNodeLatLon" Extends="NetworkNode" Series="VICS">
+            <!-- Lat/Lon coordinates of node -->
+            <Field Name="Coordinates" Type="Location3D" Series="CMASI" />
+        </Struct>
+	  
+        <!-- Base class for a functional representation of the value
+        along a segment of unit length -->
+        <Struct Name="ValueFunction">
+        </Struct>
+	  
+        <!-- Piecewise constant representation of the value along a unit length segment.
+        Value[i] is the value from Discretization[i-1] to Discretization[i]. The
+        final discretization value must be 1.0 and the lengths of Value and
+        Discretization must match. -->
+        <Struct Name="PiecewiseConstantUnitLength" Extends="ValueFunction" Series="VICS">
+            <!-- Normalized discretization of edge (0,1]. The value of the edge goes from
+            the (n-1)^th discretization point to the n^th. The last value in this list must
+            be 1.0 -->
+            <Field Name="DomainDiscretization" Type="real32[]" Units="None"/>
+            <!-- Value at each of the discretized locations along the edge. Must be the same
+            length as the discretization. -->
+            <Field Name="Value" Type="real32[]" Units="None" />
+        </Struct>
+	  
+        <!-- Piecewise constant representation of the value along a segment with specified end points.
+        Value[i] is the value from Discretization[i-1] to Discretization[i]. The lengths of Value and
+        DomainDiscretization must match. -->
+        <Struct Name="PiecewiseConstantFixedEndPoints" Extends="ValueFunction" Series="VICS">
+            <!-- Start point for the domain of the defined function -->
+            <Field Name="StartPoint" Type="real32" Default="0.0" Units="None"/>
+            <!-- End point for the domain of the defined function -->
+            <Field Name="EndPoint" Type="real32" Default="0.0" Units="None"/>
+            <!-- Discretization of steps on the segment in the interval (StartPoint,EndPoint].
+            The value of the edge goes from the (n-1)^th discretization point to the n^th.
+            The last entry in this list must be equal to EndPoint -->
+            <Field Name="DomainDiscretization" Type="real32[]" Units="None"/>
+            <!-- Value at each of the discretized portions of the segment. Must be the same
+            length as the discretization. -->
+            <Field Name="Value" Type="real32[]" Units="None" />
+        </Struct>
+	  
+        <!-- Defines an edge for a spacial network. An edge must connect two nodes defined by
+        NetworkNodes. Each edge consists of a set of waypoints connecting the two endpoints and
+        a functional representation of the value along the edge. Except at the estimator level,
+        all roads are considered bi-directional (i.e. one-way roads are not defined) -->
+        <Struct Name="NetworkEdge">
+            <!-- Unique ID for the edge -->
+            <Field Name="EdgeId" Type="uint32" Units="None" />
+            <!-- ID for the optional edge traveling in the reverse direction. An ID of zero corresponds to no reverse edge. -->
+            <Field Name="ReverseEdgeId" Type="uint32" Units="None" Default="0" />
+            <!-- NetworkNode ID which defines the start point of the edge -->
+            <Field Name="StartNode" Type="uint32" Units="None" />
+            <!-- NetworkNode ID which defines the end point of the edge -->
+            <Field Name="EndNode" Type="uint32" Units="None" />
+            <!-- Functional description of the probability of location along this edge. -->
+            <Field Name="PositionProbability" Type="ValueFunction" Series="VICS" />
+            <!-- Functional description of the velocity profile of an intruder on this edge. -->
+            <Field Name="VelocityProfile" Type="ValueFunction" Series="VICS" Units="m/s" />
+            <!-- Edge length in meters -->
+            <Field Name="EdgeLength" Type="real32" Units="meters" />
+            <!-- Optional waypoints describing physical edge in lat/lon coordinates -->
+            <Field Name="Waypoints" Type="Location3D[]" Series="CMASI" />
+            <!-- Optional waypoints describing physical edge in x,y coordinates -->
+            <Field Name="WaypointsXY" Type="LocationXY[]" Series="VICS" />
+        </Struct>
+	  
+        <!-- Defines a network over which requests arrive and are to be serviced
+        by the team of agents. -->
+        <Struct Name="NetworkRegion">
+            <!-- ID for full region data structure -->
+            <Field Name="RegionId" Type="uint32" Units="None" />
+            <!-- List of all nodes that represent the network -->
+            <Field Name="NodeList" Type="NetworkNode[]" Series="VICS" />
+            <!-- List of all edges that represent the network -->
+            <Field Name="EdgeList" Type="NetworkEdge[]" Series="VICS" />
+            <!-- Probability that intruder is no longer on this network region -->
+            <Field Name="ExitProbability" Type="real32" Units="None" Default="0.0" />
+        </Struct>
+	  
+        <!-- Initialization message for the estimator. Should return a
+        NetworkRegion with the proper discretization steps. -->
+        <Struct Name="InitializeEstimator">
+            <!-- Time synchronization -->
+            <Field Name="InitialTime" Type="uint32" Units="seconds since 1 Jan 1970" />
+            <!-- Network for which the estimator should consider -->
+            <Field Name="Region" Type="NetworkRegion" Series="VICS" />
+            <!-- U-turn probability at an intersection (0 .. 1.0) -->
+            <Field Name="ProbabilityUTurn" Type="real32" Default="0.05" />
+            <!-- Exit probability for dead-end edges (0 .. 1.0) -->
+            <Field Name="ProbabilityExit" Type="real32" Default="0.0" />
+            <!-- Discretization along edges -->
+            <Field Name="CellLength" Type="real32" Default="60.0" Units="meters" />
+            <!-- Default intruder minimum speed (when edge does not specify) -->
+            <Field Name="DefaultMinIntruderSpeed" Type="real32" Default="7.0" Units="m/s" />
+            <!-- Default intruder maximum speed (when edge does not specify) -->
+            <Field Name="DefaultMaxIntruderSpeed" Type="real32" Default="13.0" Units="m/s" />
+            <!-- Default intruder speed step size (speed discretization) -->
+            <Field Name="DefaultSpeedStepSize" Type="real32" Default="2.0" Units="m/s" />
+        </Struct>
+	  	  
+        <!-- Location relative to a defined network region -->
+        <Struct Name="NetworkLocation">
+            <!-- ID of the network on which this location is applicable -->
+            <Field Name="NetworkId" Type="uint32" Units="None" />
+            <!-- Edge (indicated by edge ID) along which location is found -->
+            <Field Name="NetworkEdge" Type="uint32" Units="None" />
+            <!-- Normalized value along the edge [0,1] -->
+            <Field Name="EdgeLocation" Type="real32" Units="Normalized" />
+        </Struct>
+	  
+        <!-- UGS Measurement: either green or red  -->
+        <Struct Name="UgsReport">	
+            <!-- UGS Status -->
+            <Field Name="Status" Type="UgsStatus" Series="VICS" />
+            <!-- The time at which the UGS was queried  -->
+            <Field Name="EventTime" Type="uint32" Units="seconds since 1 Jan 1970" />
+            <!-- UGS location -->
+            <Field Name="UgsLocation" Type="NetworkLocation" Series="VICS" />
+            <!-- UGS Id, if this UGS is a fixed position UGS. If not, ID is zero -->
+            <Field Name="UgsId" Type="uint32" Default="0" />
+            <!-- The speed at which the detected object is going (only valid for red status).  -->
+            <Field Name="ObjectSpeed" Type="real32" Units="meter/sec" /> 
+        </Struct>
+	  
+        <!-- Request for PDF measurement update (green light only). Estimator
+        returns new NetworkRegion containing the updated PDF. -->
+        <Struct Name="NetworkPropagate">
+            <!-- Network containing pdf of current intruder location -->
+            <Field Name="InitialPDF" Type="NetworkRegion" Series="VICS" />
+            <!-- Time to propagate the pdf forward -->
+            <Field Name="TimeToPropagate" Type="uint32" Units="seconds since 1 Jan 1970" />
+        </Struct>
+	  
+        <!-- Request for PDF measurement update (green light only). Estimator
+        returns new NetworkRegion containing the updated PDF only until the
+        latest green measurement -->
+        <Struct Name="NetworkUpdate">
+            <!-- Initial red measurement -->
+            <Field Name="RedMeasurement" Type="UgsReport" Series="VICS" />
+            <!-- Location of green measurements (i.e. intruder has not passed before
+            this time since initial red measurement) -->
+            <Field Name="GreenMeasurements" Type="UgsReport[]" Series="VICS" />
+        </Struct>
+	  
+        <!-- VSCS drawing message -->
+        <Struct Name="CurrentNetworkStatus">
+            <!-- Update the stored PDF to the current time -->
+            <Field Name="Time" Type="uint32" Units="seconds since 1 Jan 1970" />
+        </Struct>
+	  
+        <!-- VSCS update message -->
+        <Struct Name="CurrentNetworkUpdate">
+            <!-- Update the stored PDF with the latest UGS measurement -->
+            <Field Name="Alert" Type="IntruderAlert" Series="VICS" />
+        </Struct>
+	  
+        <!-- Inclination map user update message. If sent from a dismount, the
+        UAV auto-forwards to VICS central. Shared with other UAVs in the query/response phase. -->
+        <Struct Name="LikertNetworkUpdate" Extends="VicsBase" Series="VICS" >
+            <!-- Change the probability of taking these edges -->
+            <Field Name="AffectedEdgeIds" Type="uint32[]" Series="VICS" />
+            <!-- Likert value that the edges should be set to -->
+            <Field Name="LikertValue" Type="FuzzyEdgeValue" Series="VICS" Default="Neutral" />
+        </Struct>
+      
+        <!-- Definition of fixed UGS on a road network -->
+        <Struct Name="FixedUGS" >
+            <!-- UGS Id-->
+            <Field Name="UgsId" Type="uint32" />
+            <!-- Location in real world coordinates -->
+            <Field Name="UgsLocation" Type="Location3D" Series="CMASI" />
+            <!-- Location relative to network -->
+            <Field Name="UgsNetworkLocation" Type="NetworkLocation" Series="VICS" />
+        </Struct>
+      
+        <!-- Combined road nework and fixed UGS locations -->
+        <Struct Name="UgsLaydown" >
+            <!-- Network on which all UGS lay -->
+            <Field Name="RoadNetwork" Type="NetworkRegion" Series="VICS" />
+            <!-- List of all UGS fixed to this road network -->
+            <Field Name="UgsList" Type="FixedUGS[]" Series="VICS" />
+            <!-- Location in real world coordinates of delivery location (VICS Central) -->
+            <Field Name="DeliveryLocation" Type="Location3D" Series="CMASI" />
+        </Struct>
+      
+        <!-- Isolation controller initialization. Currently applied only to
+        a single intruder with lower bounded speed -->
+        <Struct Name="IsolationControllerInitialization" >
+            <!-- Road network and UGS locations -->
+            <Field Name="UgsPlacement" Type="UgsLaydown" Series="VICS" />
+            <!-- Lower bound on intruder speed -->
+            <Field Name="IntruderSpeed" Type="real32" Units="m/s" />
+        </Struct>
+        
+        <!-- Command the UAV to fly immediately to a fixed UGS location -->
+        <Struct Name="ImmediatelyVisitUgsCommand" >
+            <!-- UGS ID to visit -->
+            <Field Name="UgsId" Type="uint32" />
+        </Struct>
+      
+        <!-- Command the UAV to wait at the current UGS location and then
+        re-direct to the follow-on UGS when timed out -->
+        <Struct Name="LoiterVisitUgsCommand" >
+            <!-- time to loiter at current UGS location -->
+            <Field Name="LoiterTime" Type="real32" Units="seconds" />
+            <!-- UGS ID to visit after loiter has expired -->
+            <Field Name="UgsId" Type="uint32" />
+        </Struct>
+      
+        <!-- Isolation controller has determined that there has been a false
+        alarm or intruder cannot be captured -->
+        <Struct Name="IsolationControllerTerminated" >
+            <!-- Reason for exiting isolation mode -->
+            <Field Name="Reason" Type="IsolationTerminationReason" Series="VICS" />
+        </Struct>
+        
+        <!-- Power state on payload item -->
+        <Struct Name="PayloadPowerState" >
+            <!-- Item with power state -->
+            <Field Name="PayloadItem" Type="PayloadPowerItem" Series="VICS" />
+            <!-- reported or requested power state -->
+            <Field Name="PowerState" Type="bool" />
+        </Struct>
+      
+        <!-- Request processor to toggle power on attached payloads -->
+        <Struct Name="ToggleRequest" >
+            <!-- Items to change power state on -->
+            <Field Name="PayloadItems" Type="PayloadPowerState[]" Series="VICS" />
+        </Struct>
+        
+        <!-- Reported message from processor identifying power state on attached payloads -->
+        <Struct Name="ToggleStatus" >
+            <!-- Items to change power state on -->
+            <Field Name="PayloadItems" Type="PayloadPowerState[]" Series="VICS" />
+        </Struct>
+        
+        <!-- Report new connection or loss of connection on wifi link. -->
+        <Struct Name="WifiConnectionStatus" >
+            <!-- Time at which link was made or broken -->
+            <Field Name="LinkTime" Type="uint32" Units="seconds since 1 Jan 1970" />
+            <!-- UAV ID participating in link connection event -->
+            <Field Name="UavId" Type="uint32" />
+            <!-- Entity ID (e.g. UGS, dismount, VICS central) participating in link connection event -->
+            <Field Name="EntityId" Type="uint32" />
+            <!-- Status of wifi link (either connected [true] or disconnected [false]) -->
+            <Field Name="WifiLinkConnected" Type="bool" Default="false" />
+        </Struct>
+        
+        <!-- Use Axis box to collect a snapshot -->
+        <Struct Name="AxisSnapshot" >
+        </Struct>
+        
+        <!-- Use Axis box to start/stop recording -->
+        <Struct Name="AxisVideoRecord" >
+            <!-- Start [true] or stop [false] video recording -->
+            <Field Name="Record" Type="bool" Default="false" />
+        </Struct>
+	  
+ </StructList>
+</MDM>

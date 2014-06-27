@@ -26,12 +26,6 @@ def post_topic(form):
             "msg": <JSON Dictionary>
         }
 
-    Output:
-        {
-            "error": <Int>,
-            "message": <String>
-        }
-
     """
 
     topic_name = form["topic_name"]

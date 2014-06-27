@@ -39,7 +39,7 @@ def post_topic(form):
 
     if not topic_name in config.publishers:
         ros_pub = rospy.Publisher(
-            topic_name, msg_cls, queue_size=config.DEFAULT_QUEUE_SIZE
+            topic_name, msg_cls
         )
         config.publishers[topic_name] = ros_pub
 

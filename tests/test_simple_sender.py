@@ -9,7 +9,7 @@ import random
 import time
 from geometry_msgs.msg import Twist
 
-master = zmqros.Master("132.250.85.95", 5555)
+master = zmqros.Master("132.250.85.150", 8317)
 
 def run():
     while True:

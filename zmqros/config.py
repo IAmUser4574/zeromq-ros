@@ -55,7 +55,9 @@ def run(host, port):
     sub.connect(addr)
 
     while not done:
+        print "here"
         zmq_msg = sub.recv()
+        print zmq_msg
         zmq_dict = json.loads(zmq_msg)
         route_name = zmq_dict["route"]
         route_data = zmq_dict["data"]

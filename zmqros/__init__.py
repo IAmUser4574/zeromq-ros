@@ -17,7 +17,7 @@ def run(host, port):
     """
 
     import rospy
-    rospy.init_node("zmqros_{}_{}".format(host, port))
+    rospy.init_node("zmqros_{}_{}".format(host.replace(".", "_"), port))
 
     import config
     import topics

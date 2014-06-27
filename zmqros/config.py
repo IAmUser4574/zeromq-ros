@@ -12,6 +12,7 @@ DEFAULT_QUEUE_SIZE = 10
 #  Publisher dictionary
 publishers = dict()
 
+
 class route(object):
 
     def __init__(self, route_name):
@@ -55,9 +56,7 @@ def run(host, port):
     sub.connect(addr)
 
     while not done:
-        print "here"
         zmq_msg = sub.recv()
-        print zmq_msg
         zmq_dict = json.loads(zmq_msg)
         route_name = zmq_dict["route"]
         route_data = zmq_dict["data"]

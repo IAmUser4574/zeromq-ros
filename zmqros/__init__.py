@@ -3,6 +3,7 @@ __author__ = "Alexander Wallar <aw204@st-andrews.ac.uk>"
 
 
 from master import Master
+import swarm
 
 
 def run(host, port):

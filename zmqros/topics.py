@@ -1,5 +1,6 @@
 
 import config
+import util
 import rospy
 from rospy_message_converter import message_converter
 
@@ -16,7 +17,7 @@ def create_msg(msg_dict, msg_type):
     return msg, msg_cls
 
 
-@config.route("topic")
+@util.route("topic")
 def post_topic(form):
     """
     Input:

@@ -1,7 +1,6 @@
 
 import json
 import zmq
-import util
 from rospy_message_converter import message_converter
 
 
@@ -10,7 +9,7 @@ class Master(object):
     def __init__(self, host, port):
         self.host = host
         self.port = port
-        self.addr = util.create_addr(host, port)
+        self.addr = self.create_addr(self.host, self.port)
         self.init_pub()
 
     def init_pub(self):
@@ -30,3 +29,6 @@ class Master(object):
         json_msg = json.dumps(send_dict)
         self.pub.send(zmq.Message(json_msg))
         return send_dict
+
+    def create_addr(self, host, port):
+        return "tcp://{}:{}".format(host, port)

@@ -4,14 +4,14 @@ import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-import zmqros
+import zmqros.server
 import random
 import time
 from geometry_msgs.msg import Twist
 
-
-swarm_config = "configs/pelicans.json"
-swarm = zmqros.swarm.create_swarm_from_file(swarm_config)
+ns_host = "132.250.85.150"
+ns_port = 8080
+swarm = zmqros.server.create_swarm_from_ns(ns_host, ns_port)
 
 
 def run():

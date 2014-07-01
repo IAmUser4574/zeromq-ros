@@ -10,7 +10,7 @@ import time
 from geometry_msgs.msg import Twist
 
 ns_host = "132.250.85.150"
-ns_port = 8080
+ns_port = 8000
 swarm = zmqros.server.create_swarm_from_ns(ns_host, ns_port)
 
 

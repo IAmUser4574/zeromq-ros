@@ -6,8 +6,8 @@ import nsapi
 
 class Swarm(object):
 
-    def __init__(self, **kwargs):
-        self.masters = self.init_masters(kwargs.get("bots"))
+    def __init__(self, *args):
+        self.masters = self.init_masters(args)
 
     def init_masters(self, members):
         masters = dict()
@@ -36,12 +36,12 @@ def create_swarm_from_file(filename):
     with open(filename) as f:
         f_str = f.read()
         members = json.loads(f_str)
-        swarm = Swarm(**members)
+        swarm = Swarm(*members)
         return swarm
 
 
 def create_swarm_from_ns(ns_host, ns_port):
     ns = nsapi.NameServerAPI(ns_host, ns_port)
     names = ns.get_config()
-    swarm = Swarm(**names)
+    swarm = Swarm(*names)
     return swarm

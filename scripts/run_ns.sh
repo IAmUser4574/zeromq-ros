@@ -1,2 +1,2 @@
 
-python run.py --host 132.250.85.150 --port 8080 --program nameserver --config configs/pelicans.json
+python run.py --host 132.250.85.150 --port 8000 --program nameserver --config configs/pelicans.json

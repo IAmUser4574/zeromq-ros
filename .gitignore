@@ -57,5 +57,6 @@ resources
 build
 dist
 zmqros.egg-info
+rethinkdb_data
 
 

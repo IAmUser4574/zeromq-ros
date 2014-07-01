@@ -54,4 +54,8 @@ docs/_build/
 
 # resources
 resources
+build
+dist
+zmqros.egg-info
+
 

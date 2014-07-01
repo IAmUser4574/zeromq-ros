@@ -17,7 +17,6 @@ class Master(object):
         self.pub = ctx.socket(zmq.PUB)
         self.pub.bind(self.addr)
 
-
     def send_message(self, msg_type, topic_name, msg):
         msg_dict = message_converter.convert_ros_message_to_dictionary(msg)
         send_dict = dict()

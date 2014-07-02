@@ -20,8 +20,8 @@ class Master(object):
     def send_message(self, msg_type, topic_name, msg):
         msg_dict = message_converter.convert_ros_message_to_dictionary(msg)
         send_dict = dict()
-        send_dict["route"] = "topic"
         data_dict = dict()
+        send_dict["route"] = "topic"
         data_dict["topic_name"] = topic_name
         data_dict["msg_type"] = msg_type
         data_dict["msg"] = msg_dict

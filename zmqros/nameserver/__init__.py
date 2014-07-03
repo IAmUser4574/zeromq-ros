@@ -1,6 +1,6 @@
 
-__all__ = ["routes", "run", "api"]
+__all__ = ["routes", "run", "NameServerAPI"]
 
 import routes
-import api
+from api import NameServerAPI
 from main import run

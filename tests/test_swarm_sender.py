@@ -4,13 +4,13 @@ import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-import zmqros.server
+import zmqros
 import random
 import time
 from geometry_msgs.msg import Twist
 
-ns_host = "132.250.85.150"
-ns_port = 8000
+ns_host = zmqros.get_ns_host()
+ns_port = zmqros.get_ns_port()
 swarm = zmqros.server.create_swarm_from_ns(ns_host, ns_port)
 
 

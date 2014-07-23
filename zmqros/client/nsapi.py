@@ -16,5 +16,17 @@ class NameServerAPI(object):
         resp_dict = json.loads(resp)
         try:
             return resp_dict["host"], resp_dict["port"]
-        except KeyError:
-            return None
+        except TypeError:
+            raise AttributeError("Robot does not exist --> {}".format(name))
+
+    def get_config(self):
+        req = urllib2.urlopen(self.address + "/config")
+        resp = req.read()
+        resp_dict = json.loads(resp)
+        return resp_dict
+
+    def get_alive(self):
+        req = urllib2.urlopen(self.address + "/alive")
+        resp = req.read()
+        resp_dict = json.loads(resp)
+        return resp_dict

@@ -11,6 +11,7 @@ import os
 
 NS_HOST_ID = "ZMQROS_NS_HOST"
 NS_PORT_ID = "ZMQROS_NS_PORT"
+ROBOT_ID = "ZMQROS_ROBOT_ID"
 
 
 def get_ns_host():
@@ -27,3 +28,10 @@ def get_ns_port():
         raise OSError("NS_PORT_ID not found")
     except ValueError:
         raise OSError("NS_PORT_ID must be an integer")
+
+
+def get_robot_name():
+    try:
+        return os.environ[ROBOT_ID]
+    except KeyError:
+        raise OSError("NS_PORT_ID not found")

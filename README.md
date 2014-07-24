@@ -1,4 +1,4 @@
-ZeroMQ-ros
+ZeroMQ-ROS
 ========
 
 Robust middleware for connecting multiple ROS masters for controlling swarms.

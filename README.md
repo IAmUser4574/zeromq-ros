@@ -10,9 +10,3 @@ in your swarm**
 
     git clone https://github.com/wallarelvo/zeromq-ros.git
     make
-
-
-## Dependencies
-- https://github.com/baalexander/rospy_message_converter
-- ROS
-- ZeroMQ

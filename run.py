@@ -38,8 +38,8 @@ def main():
 
     args = parser.parse_args()
 
-    if args.program == "client":
-        zmqros.client.run(args.host, args.port, args.name)
+    if args.program == "agent":
+        zmqros.agent.run(args.host, args.port, args.name)
     elif args.program == "nameserver":
         zmqros.nameserver.run(args.host, args.port, args.config_file)
 

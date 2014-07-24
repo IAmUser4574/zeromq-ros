@@ -8,7 +8,8 @@ class Db(object):
         self.host = host
         self.port = port
         self.db_name = db_name
-        self.primary_key = "name"
+        self.primary_key = "id"
+        self.secondary_index = "name"
         self.config_table_name = "configuration"
         self.create()
 
@@ -30,6 +31,10 @@ class Db(object):
             r.db(self.db_name).table_create(
                 self.config_table_name, primary_key=self.primary_key
             ).run(conn)
+
+            r.db(self.db_name).table(self.config_table_name)\
+                .index_create(self.secondary_index).run(conn)
+
             table_created = True
 
         return {"db": db_created, "table": table_created}
@@ -58,5 +63,7 @@ class Db(object):
 
     def get_address(self, name):
         conn = self.connect()
-        addr_data = self.get_table(self.config_table_name).get(name).run(conn)
+        addr_data = self.get_table(self.config_table_name)\
+            .get_all(name, index=self.secondary_index).nth(0).run(conn)
+
         return addr_data

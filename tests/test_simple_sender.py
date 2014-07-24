@@ -4,13 +4,13 @@ import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-import zmqros.server
+import zmqros.coordinator
 import random
 import time
 from geometry_msgs.msg import Twist
 
 
-master = zmqros.server.Master("132.250.85.150", 5555)
+master = zmqros.coordinator.Master("132.250.85.150", 5555)
 
 
 def run():

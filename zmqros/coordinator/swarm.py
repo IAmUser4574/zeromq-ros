@@ -8,6 +8,16 @@ class Swarm(object):
 
     def __init__(self, *args):
         self.masters = self.init_masters(args)
+        self.id_mapping, self.name_mapping = self.init_vicon_mapping(args)
+
+    def init_vicon_mapping(self, members):
+        id_mapping = dict()
+        name_mapping = dict()
+        for member in members:
+            id_mapping[member["id"]] = member["name"]
+            name_mapping[member["name"]] = member["id"]
+
+        return id_mapping, name_mapping
 
     def init_masters(self, members):
         masters = dict()
@@ -27,6 +37,12 @@ class Swarm(object):
 
     def get_bots(self):
         return self.masters.values()
+
+    def get_name_by_id(self, bot_id):
+        return self.id_mapping[bot_id]
+
+    def get_id_by_name(self, bot_name):
+        return self.name_mapping[bot_name]
 
     def __getitem__(self, name):
         return self.masters[name]

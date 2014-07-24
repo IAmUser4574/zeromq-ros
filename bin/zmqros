@@ -1,0 +1,42 @@
+
+#!/bin/bash
+
+function printUsage {
+    echo "Usage: zmqros [--ns | --agent | --env | --help]"
+    echo
+    echo "Arguments:"
+    echo "--ns      Runs the name server"
+    echo "--agent   Runs the agent code"
+    echo "--env     Prints out the environmental variables used for the middleware"
+}
+
+
+if [ $# -eq 0 ]; then
+    printUsage
+    exit 1;
+fi
+
+if [ $1 == "--help" ]; then
+    printUsage;
+    exit 0;
+fi
+
+if [ $1 == "--ns" ]; then
+    cd $ZMQROS_ROOT; bin/run_ns;
+    exit 0;
+fi
+
+if [ $1 == "--agent" ]; then
+    cd $ZMQROS_ROOT; bin/run_agent;
+    exit 0;
+fi
+
+if [ $1 == "--env" ]; then
+    echo "ZMQROS_NS_HOST: $ZMQROS_NS_HOST"
+    echo "ZMQROS_NS_PORT: $ZMQROS_NS_PORT"
+    echo "ZMQROS_ROBOT_ID: $ZMQROS_ROBOT_ID"
+    echo "ZMQROS_ROOT: $ZMQROS_ROOT"
+    exit 0;
+fi
+
+printUsage

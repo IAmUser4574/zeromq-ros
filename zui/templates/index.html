@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Workbench</title>
+    </head>
+    <body>
+        <b>Name server:</b> http://{{ ns_host }}:{{ ns_port }}<br/>
+        <table id="swarm_table">
+        	<tr>
+        		<th>Name</th>
+        		<th>Id</th>
+        	</tr>
+        </table>
+        <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script>
+        	ns_url = "http://{{ ns_host }}:{{ ns_port }}";
+        	interval_delay = 500; // ms
+            $(function() {
+            	setInterval(function() {
+            		$.ajax({
+            			url: ns_url + "/alive",
+            			crossDomain: true,
+            			dataType: 'json',
+            			success: update_table_from_json
+	            	});
+            	}, interval_delay);
+            })
+
+            function update_table_from_json(data) {
+            	$("#swarm_table").html("<tr><th>Name</th><th>Id</th></tr>");
+				for (var i = 0; i < data.length; i++) {
+        			$("#swarm_table").append(
+        				"<tr><td>" + data[i]["name"] + "</td>" +
+        				"<td>" + data[i]["id"] + "</td></tr>"
+        			);
+        		}
+	    	}
+        </script>
+    </body>
+</html>

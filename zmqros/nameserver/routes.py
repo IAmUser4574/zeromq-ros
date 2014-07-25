@@ -3,9 +3,11 @@ import config
 import json
 import time
 from flask import request, jsonify
+import util
 
 
 @config.app.route("/address/<name>", methods=["GET"])
+@util.crossdomain(origin='*')
 def get_address(name):
     """
     Route that gets the host and port information about the ZeroMQ
@@ -25,6 +27,7 @@ def get_address(name):
 
 
 @config.app.route("/config", methods=["GET"])
+@util.crossdomain(origin='*')
 def get_config():
     """
     Route that dumps the entire naming database into JSON and
@@ -45,6 +48,7 @@ def get_config():
 
 
 @config.app.route("/alive", methods=["GET"])
+@util.crossdomain(origin='*')
 def get_alive():
     """
     Route that returns a address information of all the robots who have
@@ -74,6 +78,7 @@ def get_alive():
 
 
 @config.app.route("/alive/<name>", methods=["GET"])
+@util.crossdomain(origin='*')
 def get_robot_alive(name):
     """
     Route that checks if a robot is alive
@@ -91,6 +96,7 @@ def get_robot_alive(name):
 
 
 @config.app.route("/alive", methods=["POST"])
+@util.crossdomain(origin='*')
 def post_alive():
     """
     Route that allows for alive robots to post update the main server

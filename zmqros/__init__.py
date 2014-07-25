@@ -2,14 +2,13 @@
 __author__ = "Alexander Wallar <aw204@st-andrews.ac.uk>"
 
 __all__ = [
-    "coordinator", "agent", "nameserver", "ui",
+    "coordinator", "agent", "nameserver",
     "get_ns_host", "get_ns_port", "get_robot_name"
 ]
 
 import coordinator
 import agent
 import nameserver
-import ui
 import os
 
 

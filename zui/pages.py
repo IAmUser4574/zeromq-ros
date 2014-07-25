@@ -2,6 +2,7 @@
 from flask import render_template
 from flask import Response
 import config
+import zmqros
 
 
 @config.app.route("/<filename>", methods=["GET"])
@@ -15,7 +16,9 @@ def serve_html_Page(filename):
 
 @config.app.route("/", methods=["GET"])
 def serve_index():
-    return render_template("index.html")
+    ns_host = zmqros.get_ns_host()
+    ns_port = zmqros.get_ns_port()
+    return render_template("index.html", ns_host=ns_host, ns_port=ns_port)
 
 
 @config.app.route("/<filetype>/<filename>", methods=["GET"])

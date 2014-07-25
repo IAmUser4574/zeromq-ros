@@ -42,7 +42,8 @@ def main():
         zmqros.agent.run(args.host, args.port, args.name)
     elif args.program == "nameserver":
         zmqros.nameserver.run(args.host, args.port, args.config_file)
-
+    elif args.program == "ui":
+        zmqros.ui.run(args.host, args.port)
 
 if __name__ == "__main__":
     main()

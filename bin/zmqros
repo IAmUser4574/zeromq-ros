@@ -2,11 +2,12 @@
 #!/bin/bash
 
 function printUsage {
-    echo "Usage: zmqros [--ns | --agent | --env | --help]"
+    echo "Usage: zmqros [--ns | --agent | --env | --ui | --help]"
     echo
     echo "Arguments:"
     echo "--ns      Runs the name server"
     echo "--agent   Runs the agent code"
+    echo "--ui      Runs the UI server"
     echo "--env     Prints out the environmental variables used for the middleware"
 }
 
@@ -28,6 +29,11 @@ fi
 
 if [ $1 == "--agent" ]; then
     cd $ZMQROS_ROOT; bin/run_agent;
+    exit 0;
+fi
+
+if [ $1 == "--ui" ]; then
+    cd $ZMQROS_ROOT; bin/run_ui;
     exit 0;
 fi
 

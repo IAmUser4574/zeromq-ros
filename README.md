@@ -47,6 +47,15 @@ every computer running ZeroMQ-ROS.
 - `ZMQROS_ROOT` --> The location of the root directory of the ZeroMQ-ROS installation
 
 ## Example
+
+1. First run the name server and populate the database with robot information.
+    - `$ zmqros --ns`
+2. On all of the agents in the swarm that are specified in the name server, run the agent code.
+    - `$ zmqros --agent`
+3. Run the coordinator code.
+
+#### Sample coordinator code
+
 ```python
 import zmqros
 import random

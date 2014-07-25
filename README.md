@@ -6,6 +6,14 @@ a single coordinator and makes it easy to create swarm applications using the st
 ROS framework. ZeroMQ-ROS uses the ZeroMQ message queue to communicate between the coordinator
 and the agents.
 
+## Architecture
+
+The middleware is broken into three different parts; a naming service, coordinators, and agents.
+
+### Naming service
+
+The naming service is used 
+
 ## Install
 
 **[Warning] You must already have ROS installed on all machines you would like

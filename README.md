@@ -8,11 +8,25 @@ and the agents.
 
 ## Architecture
 
-The middleware is broken into three different parts; a naming service, coordinators, and agents.
+The middleware is broken into three different parts; agents, coordinators, and a naming service.
 
-### Naming service
+#### Agents
 
-The naming service is used 
+Agents are members of the swarm that will be controlled by a coordinator. They are referenced by
+a unique identifying name and listen for JSON serialized ROS messages on a message queue. These
+serialized messages are then constructed into ROS messages and published to the associated topic.
+
+#### Coordinators
+
+Coordinators are the controllers of the swarm. They can send JSON serialized ROS messages to agents
+that get published to the associated topic.
+
+#### Naming service
+
+The naming service is used to associate a robot's unique name to a host and port of the ZeroMQ
+message queue. This is vital for having dynamic swarm membership. Instead of sharing a configuration
+file with this information, a persistent, centralized server runs that holds this information. Also,
+the naming service holds a record of what agents are currently *alive* and able to be used.
 
 ## Install
 

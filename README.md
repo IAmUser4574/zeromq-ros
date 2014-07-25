@@ -47,7 +47,7 @@ every computer running ZeroMQ-ROS.
 - `ZMQROS_ROOT` --> The location of the root directory of the ZeroMQ-ROS installation
 
 ## Example
-    #!/usr/bin/python
+    ```python
     import zmqros
     import random
     import time
@@ -75,6 +75,7 @@ every computer running ZeroMQ-ROS.
 
     if __name__ == "__main__":
         run()
+    ```
 
 ## Running
 

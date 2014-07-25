@@ -1,13 +1,13 @@
 
 __author__ = "Alexander Wallar <aw204@st-andrews.ac.uk>"
 
-__all__ = ["pages"]
+__all__ = ["pages", "routes"]
 
 
 import pages
-import config
+from config import app
+import routes
 
 
 def run(host, port):
-    config.app.run(host=host, port=int(port), debug=True)
-
+    app.run(host=host, port=int(port), debug=False)

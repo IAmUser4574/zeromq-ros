@@ -1,8 +1,7 @@
 
-import zmqros
-import zui
 import argparse
 import warnings
+import zmqros
 
 
 def main():
@@ -44,6 +43,7 @@ def main():
     elif args.program == "nameserver":
         zmqros.nameserver.run(args.host, args.port, args.config_file)
     elif args.program == "ui":
+        import zui
         zui.run(args.host, args.port)
 
 if __name__ == "__main__":

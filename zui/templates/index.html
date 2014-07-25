@@ -1,15 +1,27 @@
 <html>
     <head>
         <title>Workbench</title>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"> 
+        <style>
+        	body {
+        		margin-top: 30px
+        	}
+        </style>
     </head>
     <body>
-        <b>Name server:</b> http://{{ ns_host }}:{{ ns_port }}<br/>
-        <table id="swarm_table">
-        	<tr>
-        		<th>Name</th>
-        		<th>Id</th>
-        	</tr>
-        </table>
+        <div class="row">
+        	<div class="col-md-6 col-md-offset-3">
+		        <b>Name server:</b> http://{{ ns_host }}:{{ ns_port }}<br/>
+        		<table id="swarm_table" class="table table-hover">
+		        	<tr>
+		        		<th>Name</th>
+		        		<th>Id</th>
+		        	</tr>
+		        </table>
+		        <button id="takeoff" type="button" class="btn btn-primary btn-lg btn-block">Take off</button>
+				<button id="land" type="button" class="btn btn-default btn-lg btn-block">Land</button>			
+			</div>
+	    </div>
         <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script>
         	ns_url = "http://{{ ns_host }}:{{ ns_port }}";
@@ -23,17 +35,28 @@
             			success: update_table_from_json
 	            	});
             	}, interval_delay);
+
+            	$("#takeoff").on("click", function() {
+	            	$.post("/takeoff/gonzo");
+	            });
+	            $("#land").on("click", function() {
+	            	$.post("/land/gonzo");
+	            }); 
             })
 
             function update_table_from_json(data) {
             	$("#swarm_table").html("<tr><th>Name</th><th>Id</th></tr>");
 				for (var i = 0; i < data.length; i++) {
         			$("#swarm_table").append(
-        				"<tr><td>" + data[i]["name"] + "</td>" +
+        				"<tr id=" + data["name"] + "><td>" + data[i]["name"] + "</td>" +
         				"<td>" + data[i]["id"] + "</td></tr>"
         			);
+        			$("#" + data["name"]).on("click", function() {
+
+        			});
         		}
 	    	}
+
         </script>
     </body>
 </html>

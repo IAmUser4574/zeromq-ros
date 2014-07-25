@@ -3,7 +3,6 @@ from flask import Flask
 
 #  Object for route registration
 app = Flask(__name__)
-app.config.from_object(__name__)
 
 #  Directory for static files
 STATIC_DIR = "zui/static/"

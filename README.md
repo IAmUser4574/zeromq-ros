@@ -7,9 +7,6 @@ ROS framework. ZeroMQ-ROS uses the ZeroMQ message queue to communicate between t
 and the agents.
 
 ## Architecture
-
-The middleware is broken into three different parts; agents, coordinators, and a naming service.
-
 #### Agents
 
 Agents are members of the swarm that will be controlled by a coordinator. They are referenced by

@@ -46,10 +46,10 @@ new terminal, or you can be sane and add them to your `.bashrc` or `.bash_profil
 You must set variables described below. These environment variables need to be set on
 every computer running ZeroMQ-ROS.
 
-- `ZMQROS_NS_HOST` --> Host of the naming service
-- `ZMQROS_NS_PORT` --> Port of the naming service
-- `ZMQROS_ROBOT_ID` --> A unique identifying name of the robot running ZeroMQ-ROS
-- `ZMQROS_ROOT` --> The location of the root directory of the ZeroMQ-ROS installation
+- `ZMQROS_NS_HOST` -- Host of the naming service
+- `ZMQROS_NS_PORT` -- Port of the naming service
+- `ZMQROS_ROBOT_ID` -- A unique identifying name of the robot running ZeroMQ-ROS
+- `ZMQROS_ROOT` -- The location of the root directory of the ZeroMQ-ROS installation
 
 ## Running
 

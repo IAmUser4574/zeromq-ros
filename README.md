@@ -51,11 +51,15 @@ every computer running ZeroMQ-ROS.
 1. First run the name server and populate the database with robot information. This step does 
 not need to occur every time you run the swarm, however, the name server needs to be running for
 agents and coordinator nodes to function.
+
     - `$ zmqros --ns`
+    
 2. On all of the agents in the swarm that are specified in the name server, run the agent code. 
 This step also does not need to occur everytime the swarm is to be controlled, however to control an agent,
-this command must be executed.
+the agent program must be running.
+
     - `$ zmqros --agent`
+    
 3. Run the coordinator code from where ever the coordinator is located.
 
 ## Coordinator example

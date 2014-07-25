@@ -21,8 +21,8 @@ that get published to the associated topic on the agent's ROS master.
 #### Naming service
 
 The naming service is used to associate a robot's unique name to a host and port of the ZeroMQ
-message queue. This is vital for having dynamic swarm membership. Instead of sharing a configuration
-file with this information, a persistent, centralized server runs that holds this information. Also,
+message queue. This is vital for having dynamic swarm membership because instead of manually sharing
+a configuration file, a persistent, centralized server runs that holds all of this information. Also,
 the naming service holds a record of what agents are currently *alive* and able to be used.
 
 ## Install

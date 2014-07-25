@@ -25,17 +25,6 @@ message queue. This is vital for having dynamic swarm membership because instead
 a configuration file, a persistent, centralized server runs that holds all of this information. Also,
 the naming service holds a record of what agents are currently *alive* and able to be used.
 
-## JSON message protocol
-
-    {
-        "route": <String: Some identifying keyword>
-        "data": {
-            "topic_name": <String>,
-            "msg_type": <String: Namespaces delimitted by `/`>,
-            "msg": <JSON Dictionary>
-        }
-    }
-
 ## Install
 
 **[Warning] You must already have ROS installed on all machines you would like
@@ -56,3 +45,11 @@ every computer running ZeroMQ-ROS.
 - `ZMQROS_NS_PORT` --> Port of the naming service
 - `ZMQROS_ROBOT_ID` --> A unique identifying name of the robot running ZeroMQ-ROS
 - `ZMQROS_ROOT` --> The location of the root directory of the ZeroMQ-ROS installation
+
+## Running
+
+#### Name server
+    $ zmqros --ns
+
+#### Agent
+    $ zmqros --agent

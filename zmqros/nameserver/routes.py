@@ -47,6 +47,32 @@ def get_config():
     return json.dumps(config.store.get_config())
 
 
+@config.app.route("/create_swarm", methods=["GET"])
+@util.crossdomain(origin="*")
+def create_swarm():
+    """
+    Dynamically allocates ports for ZeroMQ channels
+
+    Input: [<String: Name of robots in your swarm>]
+
+    Output: [
+        {
+            "host": <String>,
+            "port": <Int>,
+            "name": <String>
+        }
+    ]
+
+    """
+
+    try:
+        used_ports = config.allocated_ports[request.remote_addr]
+    except KeyError:
+        used_ports = list()
+
+    raise NotImplementedError("Will do this in a sec " + used_ports)
+
+
 @config.app.route("/alive", methods=["GET"])
 @util.crossdomain(origin='*')
 def get_alive():

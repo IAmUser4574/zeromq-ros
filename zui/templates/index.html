@@ -18,6 +18,7 @@
 		        		<th>Id</th>
 		        	</tr>
 		        </table>
+		        <h3 id="current_robot">N/A</h3>
 		        <button id="takeoff" type="button" class="btn btn-primary btn-lg btn-block">Take off</button>
 				<button id="land" type="button" class="btn btn-default btn-lg btn-block">Land</button>			
 			</div>
@@ -37,22 +38,23 @@
             	}, interval_delay);
 
             	$("#takeoff").on("click", function() {
-	            	$.post("/takeoff/gonzo");
+	            	$.post("/takeoff/" + $("#current_robot").html());
 	            });
 	            $("#land").on("click", function() {
-	            	$.post("/land/gonzo");
+	            	$.post("/land/" + $("#current_robot").html());
 	            }); 
             })
 
             function update_table_from_json(data) {
             	$("#swarm_table").html("<tr><th>Name</th><th>Id</th></tr>");
 				for (var i = 0; i < data.length; i++) {
+					var name = data[i]["name"];
         			$("#swarm_table").append(
-        				"<tr id=" + data["name"] + "><td>" + data[i]["name"] + "</td>" +
+        				"<tr id=" + data[i]["name"] + "><td>" + data[i]["name"] + "</td>" +
         				"<td>" + data[i]["id"] + "</td></tr>"
         			);
-        			$("#" + data["name"]).on("click", function() {
-
+        			$("#" + data[i]["name"]).on("click", function() {
+        				$("#current_robot").html(name);
         			});
         		}
 	    	}

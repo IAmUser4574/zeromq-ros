@@ -47,6 +47,9 @@ class Swarm(object):
     def __getitem__(self, name):
         return self.masters[name]
 
+    def __str__(self):
+        return str(self.get_names())
+
 
 def create_swarm_from_file(filename):
     with open(filename) as f:
@@ -59,6 +62,6 @@ def create_swarm_from_file(filename):
 def create_swarm_from_ns(ns_host, ns_port):
     # Change this to specify what members
     ns = nsapi.NameServerAPI(ns_host, ns_port)
-    names = ns.get_alive()
+    names = ns.get_config()
     swarm = Swarm(*names)
     return swarm

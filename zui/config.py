@@ -9,9 +9,9 @@ STATIC_DIR = "zui/static/"
 
 #  Mime type dictionary
 MIME_DICT = {
-    "js": "text/javascript",
-    "css": "text/css",
-    "img": "image/png",
+    "js":        "text/javascript",
+    "css":       "text/css",
+    "img":       "image/png",
     "libraries": "text/javascript",
-    "data": "text/csv"
+    "data":      "text/csv"
 }

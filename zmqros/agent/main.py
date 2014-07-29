@@ -4,23 +4,10 @@ import zmq
 import json
 from util import create_addr
 import rospy
-import nsapi
+import ns
 import heartbeat
-
-
-def get_subscriber(host, port):
-    addr = create_addr(host, port)
-    context = zmq.Context()
-    sub = context.socket(zmq.SUB)
-    sub.setsockopt(zmq.SUBSCRIBE, "")
-    sub.connect(addr)
-    return sub
-
-
-def init_ros_node(host, port):
-    host_str = host.replace(".", "_")
-    node_name = "zmqros_{}_{}".format(host_str, port)
-    rospy.init_node(node_name)
+import subscriber
+import time
 
 
 def run(ns_host, ns_port, name):
@@ -38,22 +25,23 @@ def run(ns_host, ns_port, name):
 
     """
 
-    ns = nsapi.NameServerAPI(ns_host, ns_port)
-    host, port = ns.get_address(name)
-    sub = get_subscriber(host, port)
-    init_ros_node(host, port)
-    heart = heartbeat.Heartbeat(host, port, name, ns_host, ns_port)
+    nserver = ns.NameServer(ns_host, ns_port)
+    rospy.init_node("zmqros", anonymous=True)
+    heart = heartbeat.Heartbeat(name, ns_host, ns_port)
     heart.start()
+    thread_list = list()
 
     while True:
         try:
-            zmq_msg = sub.recv()
-            zmq_dict = json.loads(zmq_msg)
-            route_name = zmq_dict["route"]
-            route_data = zmq_dict["data"]
-            callback_list = config.callback_functions[route_name]
-            for callback in callback_list:
-                callback(route_data)
+            new_conns = nserver.get_new_connections(name)
+            for conn in new_conns:
+                sub = subscriber.Subscriber(conn["host"], conn["port"])
+                sub.start()
+                thread_list.append(sub)
+
+            time.sleep(2)
         except KeyboardInterrupt:
             heart.kill()
+            for thr in thread_list:
+                thr.kill()
             exit()

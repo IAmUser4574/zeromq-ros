@@ -1,5 +1,4 @@
 
-import nsapi
 import urllib
 import urllib2
 import json
@@ -9,10 +8,8 @@ import threading
 
 class Heartbeat(object):
 
-    def __init__(self, host, port, name, ns_host, ns_port):
+    def __init__(self, name, ns_host, ns_port):
         self.beat_url = self.get_beat_url(ns_host, ns_port)
-        self.host = host
-        self.port = port
         self.name = name
         self.delay = 1  # second
         self.beating = False
@@ -23,8 +20,6 @@ class Heartbeat(object):
 
     def beat(self):
         post_form = {
-            "host": self.host,
-            "port": self.port,
             "name": self.name
         }
 

@@ -15,7 +15,6 @@
         		<table id="swarm_table" class="table table-hover">
 		        	<tr>
 		        		<th>Name</th>
-		        		<th>Id</th>
 		        	</tr>
 		        </table>
 		        <h3 id="current_robot">N/A</h3>
@@ -46,14 +45,13 @@
             })
 
             function update_table_from_json(data) {
-            	$("#swarm_table").html("<tr><th>Name</th><th>Id</th></tr>");
+                $("#swarm_table").html("<tr><th>Name</th></tr>");
 				for (var i = 0; i < data.length; i++) {
-					var name = data[i]["name"];
+				    var name = data[i];
         			$("#swarm_table").append(
-        				"<tr id=" + data[i]["name"] + "><td>" + data[i]["name"] + "</td>" +
-        				"<td>" + data[i]["id"] + "</td></tr>"
+        				"<tr id=" + data[i] + "><td>" + data[i] + "</td></tr>"
         			);
-        			$("#" + data[i]["name"]).on("click", function() {
+        			$("#" + data[i]).on("click", function() {
         				$("#current_robot").html(name);
         			});
         		}

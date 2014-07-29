@@ -67,3 +67,7 @@ class Db(object):
             .get_all(name, index=self.secondary_index).nth(0).run(conn)
 
         return addr_data
+
+    def get_id_by_name(self, name):
+        addr_data = self.get_address(name)
+        return addr_data["id"]

@@ -7,7 +7,7 @@ import zmqros
 
 ns_host = zmqros.get_ns_host()
 ns_port = zmqros.get_ns_port()
-swarm = zmqros.coordinator.create_swarm_from_ns(ns_host, ns_port)
+swarm = zmqros.coordinator.create_swarm_from_ns(ns_host, ns_port, ["test"])
 
 
 @config.app.route("/takeoff/<name>", methods=["POST"])

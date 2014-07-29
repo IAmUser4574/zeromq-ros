@@ -43,3 +43,9 @@ def crossdomain(origin=None, methods=None, headers=None,
         f.provide_automatic_options = False
         return update_wrapper(wrapped_function, f)
     return decorator
+
+
+def convert_string_to_list(in_str):
+    return in_str[1:-1].replace("'", "")\
+        .replace(" ", "")\
+        .split(",")

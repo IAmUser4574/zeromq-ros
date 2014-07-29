@@ -11,7 +11,8 @@ from geometry_msgs.msg import Twist
 
 ns_host = zmqros.get_ns_host()
 ns_port = zmqros.get_ns_port()
-swarm = zmqros.coordinator.create_swarm_from_ns(ns_host, ns_port)
+names = ["test"]
+swarm = zmqros.coordinator.create_swarm_from_ns(ns_host, ns_port, names)
 
 
 def run():

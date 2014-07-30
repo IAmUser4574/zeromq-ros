@@ -1,0 +1,106 @@
+#%RAML 0.8
+
+title: ZMQROS Name Server API
+
+traits:
+    - cross:
+        description: Allows for cross domain access
+
+/all:
+    is: [ cross ]
+    get:
+        description: Gets the names of all the alive robots
+        responses:
+            200:
+                body:
+                    application/json:
+                        schema:
+                            [<String>,...]
+
+/id:
+    is: [ cross ]
+    /{name}:
+        get:
+            description: |
+                Gets the associated id (for Vicon) for a corresponding name
+            responses:
+                200:
+                    body:
+                        application/json:
+                            schema: {"id": <String>}
+
+/alive:
+    is: [ cross ]
+    get:
+        description: Gets a list of the *live* robots from the name server
+        responses:
+            200:
+                body:
+                    application/json:
+                        schema: [{"name": <String>}, ...]
+    post:
+        description: |
+            Route that allows for robots to periodically check in with
+            the name server to show that they are still running
+        responses:
+            200:
+                body:
+                    application/json:
+                        schema: {"error": <Int>, "message": <String>}
+
+    /{name}:
+        get:
+            description: Checks whether or not a certain robot is still living
+            responses:
+                200:
+                    body:
+                        application/json:
+                            schema: <Boolean>
+
+/swarm:
+    is: [ cross ]
+    /create:
+        post:
+            description: Dynamically allocates addresses for ZeroMQ sockets
+            responses:
+                200:
+                    body:
+                        application/json:
+                            schema: |
+                                {
+                                    "error": <Int>,
+                                    "message": <String>,
+                                    "host": <String>,
+                                    "swarm": [
+                                        {
+                                            "name": <String>,
+                                            "port": <Int>
+                                        }, ...
+                                    ]
+                                }
+    /free:
+        post:
+            description: |
+                Route that frees ports used by an application that
+                communicates with a swarm through ZeroMQ
+            responses:
+                200:
+                    body:
+                        application/json:
+                            schema: {"error": <Int>, "message": <String>}
+
+/connections:
+    is: [ cross ]
+    /new:
+        /{name}:
+            get:
+                description: |
+                    Gets the new connections for a given agent. The new
+                    connection is then popped off the connection stack for
+                    that robot in the name server
+                responses:
+                    200:
+                        body:
+                            application/json:
+                                schema: |
+                                    [{"host": <String>, "port": <Int>}, ...]

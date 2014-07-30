@@ -212,7 +212,6 @@ def post_alive():
 
     name = request.form["name"]
     config.live_robots[name] = time.time()
-
     return jsonify(error=0, message="No error")
 
 

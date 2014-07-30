@@ -36,6 +36,7 @@ class Heartbeat(object):
     def start(self):
         self.beating = True
         heart = threading.Thread(target=self.live)
+        heart.daemon = True
         heart.start()
 
     def kill(self):

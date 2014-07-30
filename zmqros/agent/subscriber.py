@@ -14,10 +14,6 @@ class Subscriber(object):
         self.port = port
         self.sub = self.create_sub(host, port)
         self.running = False
-        signal.signal(signal.SIGALRM, self.alarm_handler)
-
-    def alarm_handler(self, signum, frame):
-        raise RuntimeError("Times up")
 
     def create_sub(self, host, port):
         addr = create_addr(host, port)
@@ -30,16 +26,7 @@ class Subscriber(object):
     def live(self):
         while self.running:
             try:
-                while True:
-                    try:
-                        signal.alarm(5)
-                        zmq_msg = self.sub.recv()
-                        signal.alarm(0)
-                        break
-                    except RuntimeError:
-                        if not self.running:
-                            return
-
+                zmq_msg = self.sub.recv()
                 zmq_dict = json.loads(zmq_msg)
                 route_name = zmq_dict["route"]
                 route_data = zmq_dict["data"]
@@ -52,8 +39,9 @@ class Subscriber(object):
     def start(self):
         self.running = True
         sub_thread = threading.Thread(target=self.live)
+        sub_thread.daemon = True
         sub_thread.start()
         return sub_thread
 
     def kill(self):
-        self.running = True
+        self.running = False

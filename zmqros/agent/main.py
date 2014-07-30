@@ -26,7 +26,7 @@ def run(ns_host, ns_port, name):
     """
 
     nserver = ns.NameServer(ns_host, ns_port)
-    rospy.init_node("zmqros", anonymous=True)
+    rospy.init_node("zmqros", anonymous=False, disable_signals=True)
     heart = heartbeat.Heartbeat(name, ns_host, ns_port)
     heart.start()
     thread_list = list()
@@ -38,7 +38,6 @@ def run(ns_host, ns_port, name):
                 sub = subscriber.Subscriber(conn["host"], conn["port"])
                 sub.start()
                 thread_list.append(sub)
-
             time.sleep(2)
         except KeyboardInterrupt:
             heart.kill()

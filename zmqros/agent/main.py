@@ -8,6 +8,7 @@ import ns
 import heartbeat
 import subscriber
 import time
+import urllib2
 
 
 def run(ns_host, ns_port, name):
@@ -30,6 +31,7 @@ def run(ns_host, ns_port, name):
     heart = heartbeat.Heartbeat(name, ns_host, ns_port)
     heart.start()
     thread_list = list()
+    delay_time = 2  # seconds
 
     while True:
         try:
@@ -38,9 +40,12 @@ def run(ns_host, ns_port, name):
                 sub = subscriber.Subscriber(conn["host"], conn["port"])
                 sub.start()
                 thread_list.append(sub)
-            time.sleep(2)
         except KeyboardInterrupt:
             heart.kill()
             for thr in thread_list:
                 thr.kill()
             exit()
+        except urllib2.URLError:
+            pass
+
+        time.sleep(delay_time)

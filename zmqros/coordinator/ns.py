@@ -61,16 +61,19 @@ class NameServer(object):
         return ret_dict["host"], ret_dict["ports"]
 
     def free_swarm(self, name_port_dicts):
-        post_form = {"swarm": name_port_dicts}
-        post_str = urllib.urlencode(post_form)
-        req = urllib2.Request(self.address + "/swarm/free", post_str)
-        resp = urllib2.urlopen(req)
-        ret_dict = json.loads(resp.read())
+        try:
+            post_form = {"swarm": name_port_dicts}
+            post_str = urllib.urlencode(post_form)
+            req = urllib2.Request(self.address + "/swarm/free", post_str)
+            resp = urllib2.urlopen(req)
+            ret_dict = json.loads(resp.read())
 
-        if not ret_dict["error"] == 0:
-            raise Exception(ret_dict["message"])
+            if not ret_dict["error"] == 0:
+                raise Exception(ret_dict["message"])
 
-        return 0
+            return 0
+        except urllib2.URLError:
+            return 1
 
     def get_new_connections(self, name):
         req = urllib2.urlopen(self.address + "/connections/new")

@@ -2,6 +2,7 @@
 import master
 import json
 import ns
+import atexit
 
 
 class Swarm(object):
@@ -74,13 +75,30 @@ class open_swarm(object):
         self.nserver.free_swarm(self.swarm.get_dicts())
 
 
+swarms_ref = dict()
+
+
 def create_swarm_from_ns(ns_host, ns_port, names):
+    global swarms
     nserver = ns.NameServer(ns_host, ns_port)
     host, ports = nserver.create_swarm(names)
     swarm = Swarm(host)
+
+    if not (ns_host, ns_port) in swarms.keys():
+        swarms_ref[(ns_host, ns_port)] = list()
+
+    swarms_ref[(ns_host, ns_port)].append(swarm)
 
     for name, port in zip(names, ports):
         bot_id = nserver.get_id(name)
         swarm.add_bot(name, bot_id, port)
 
     return swarm
+
+
+@atexit.register
+def free_swarms():
+    for (ns_host, ns_port), swarms in swarms_ref.iteritems():
+        nserver = ns.NameServer(ns_host, ns_port)
+        for swarm in swarms:
+            nserver.free_swarm(swarm.get_dicts())

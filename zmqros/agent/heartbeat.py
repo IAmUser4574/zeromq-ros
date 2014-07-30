@@ -19,14 +19,17 @@ class Heartbeat(object):
         return ns_route + "/alive"
 
     def beat(self):
-        post_form = {
-            "name": self.name
-        }
+        try:
+            post_form = {
+                "name": self.name
+            }
 
-        post_str = urllib.urlencode(post_form)
-        req = urllib2.Request(self.beat_url, post_str)
-        resp = urllib2.urlopen(req)
-        return json.loads(resp.read())
+            post_str = urllib.urlencode(post_form)
+            req = urllib2.Request(self.beat_url, post_str)
+            resp = urllib2.urlopen(req)
+            return json.loads(resp.read())
+        except urllib2.URLError:
+            pass
 
     def live(self):
         while self.beating:

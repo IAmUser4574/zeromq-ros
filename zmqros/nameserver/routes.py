@@ -7,47 +7,6 @@ import rethinkdb.errors
 import util
 
 
-@config.app.route("/address/<name>", methods=["GET"])
-@util.crossdomain(origin='*')
-def get_address(name):
-    """
-    Route that gets the host and port information about the ZeroMQ
-    channel that the robot with name, <name>, talks to
-
-    Input: <name> --> String
-
-    Output: {
-        "host": <String>,
-        "port": <Int>
-    }
-
-    """
-
-    db_data = config.store.get_address(name)
-    return json.dumps(db_data)
-
-
-@config.app.route("/config", methods=["GET"])
-@util.crossdomain(origin='*')
-def get_config():
-    """
-    Route that dumps the entire naming database into JSON and
-    returns it to the requesting agent
-
-    Input: None
-
-    Output: [
-        {
-            "host": <String>,
-            "port": <Int>,
-            "name": <String>
-        }, ...
-    ]
-    """
-
-    return json.dumps(config.store.get_config())
-
-
 @config.app.route("/swarm/create", methods=["POST"])
 @util.crossdomain(origin="*")
 def create_swarm():
@@ -112,7 +71,7 @@ def create_swarm():
 
 
 @config.app.route("/swarm/free", methods=["POST"])
-@util.crossdomain(origin='*')
+@util.crossdomain(origin="*")
 def free_swarm():
     """
     Route that frees ports used by an application to communicate with
@@ -160,7 +119,7 @@ def free_swarm():
 
 
 @config.app.route("/connections/new/<name>", methods=["GET"])
-@util.crossdomain(origin='*')
+@util.crossdomain(origin="*")
 def get_new_connections(name):
     """
     Gets the new connections for a robot
@@ -188,7 +147,7 @@ def get_new_connections(name):
 
 
 @config.app.route("/alive", methods=["GET"])
-@util.crossdomain(origin='*')
+@util.crossdomain(origin="*")
 def get_alive():
     """
     Route that returns a address information of all the robots who have
@@ -216,7 +175,7 @@ def get_alive():
 
 
 @config.app.route("/alive/<name>", methods=["GET"])
-@util.crossdomain(origin='*')
+@util.crossdomain(origin="*")
 def get_robot_alive(name):
     """
     Route that checks if a robot is alive
@@ -234,7 +193,7 @@ def get_robot_alive(name):
 
 
 @config.app.route("/alive", methods=["POST"])
-@util.crossdomain(origin='*')
+@util.crossdomain(origin="*")
 def post_alive():
     """
     Route that allows for alive robots to post update the main server
@@ -258,7 +217,7 @@ def post_alive():
 
 
 @config.app.route("/id/<name>", methods=["GET"])
-@util.crossdomain(origin='*')
+@util.crossdomain(origin="*")
 def get_id_by_name(name):
     """
     Route that allows you to get the id of a robot by its name
@@ -275,3 +234,17 @@ def get_id_by_name(name):
         return jsonify(id=config.store.get_id_by_name(name))
     except rethinkdb.errors.RqlRuntimeError:
         return jsonify(id=None)
+
+
+@config.app.route("/all", methods=["GET"])
+@util.crossdomain(origin="*")
+def get_all_names():
+    """
+    Gets the names of all the alive robots
+
+    Input: None
+
+    Output: [<String: Name>, ...]
+
+    """
+    return json.dumps(config.live_robots.keys())

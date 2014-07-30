@@ -11,20 +11,10 @@ class NameServer(object):
         self.port = port
         self.address = "http://{}:{}".format(host, port)
 
-    def get_address(self, name):
-        req = urllib2.urlopen(self.address + "/address/{}".format(name))
+    def get_new_connections(self, name):
+        req = urllib2.urlopen(self.address + "/connections/new/" + name)
         resp = req.read()
-        resp_dict = json.loads(resp)
-        try:
-            return resp_dict["host"], resp_dict["port"]
-        except TypeError:
-            raise LookupError("Robot does not exist --> {}".format(name))
-
-    def get_config(self):
-        req = urllib2.urlopen(self.address + "/config")
-        resp = req.read()
-        resp_dict = json.loads(resp)
-        return resp_dict
+        return json.loads(resp)
 
     def get_alive(self):
         req = urllib2.urlopen(self.address + "/alive")
@@ -44,6 +34,13 @@ class NameServer(object):
             )
 
         return robot_id
+
+    def get_names(self):
+        req = urllib2.urlopen(self.address + "/all")
+        resp = req.read()
+        bot_names = map(str, json.loads(resp))
+
+        return bot_names
 
     def create_swarm(self, names):
         try:
@@ -77,8 +74,3 @@ class NameServer(object):
             return 0
         except urllib2.URLError:
             return 1
-
-    def get_new_connections(self, name):
-        req = urllib2.urlopen(self.address + "/connections/new")
-        resp = req.read()
-        return json.loads(resp)

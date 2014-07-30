@@ -7,12 +7,11 @@ import zmqros
 
 ns_host = zmqros.get_ns_host()
 ns_port = zmqros.get_ns_port()
-swarm = zmqros.coordinator.create_swarm_from_ns(ns_host, ns_port, ["test"])
+swarm = zmqros.coordinator.create_swarm_from_ns(ns_host, ns_port, ["test", "gonzo"])
 
 
 @config.app.route("/takeoff/<name>", methods=["POST"])
 def takeoff(name):
-    print swarm
     swarm[name].send_message(
         "std_msgs/Empty", "/takeoff", Empty()
     )

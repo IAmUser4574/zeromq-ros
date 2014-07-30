@@ -84,7 +84,7 @@ def create_swarm_from_ns(ns_host, ns_port, names):
     host, ports = nserver.create_swarm(names)
     swarm = Swarm(host)
 
-    if not (ns_host, ns_port) in swarms.keys():
+    if not (ns_host, ns_port) in swarms_ref.keys():
         swarms_ref[(ns_host, ns_port)] = list()
 
     swarms_ref[(ns_host, ns_port)].append(swarm)

@@ -11,4 +11,5 @@ def get_current_time():
 def log_topic(form):
     print "topic", " :: ",
     print get_current_time(), " :: ",
-    print form["msg_type"]
+    print form["msg_type"], "::",
+    print form["topic_name"]

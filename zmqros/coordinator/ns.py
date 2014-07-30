@@ -46,19 +46,22 @@ class NameServer(object):
         return robot_id
 
     def create_swarm(self, names):
-        post_form = {
-            "names": names
-        }
+        try:
+            post_form = {
+                "names": names
+            }
 
-        post_str = urllib.urlencode(post_form)
-        req = urllib2.Request(self.address + "/swarm/create", post_str)
-        resp = urllib2.urlopen(req)
-        ret_dict = json.loads(resp.read())
+            post_str = urllib.urlencode(post_form)
+            req = urllib2.Request(self.address + "/swarm/create", post_str)
+            resp = urllib2.urlopen(req)
+            ret_dict = json.loads(resp.read())
 
-        if not ret_dict["error"] == 0:
-            raise Exception(ret_dict["message"])
+            if not ret_dict["error"] == 0:
+                raise Exception(ret_dict["message"])
 
-        return ret_dict["host"], ret_dict["ports"]
+            return ret_dict["host"], ret_dict["ports"]
+        except urllib2.URLError:
+            raise Exception("Unable to connect to name server")
 
     def free_swarm(self, name_port_dicts):
         try:

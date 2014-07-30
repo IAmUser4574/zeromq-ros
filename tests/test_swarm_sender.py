@@ -12,7 +12,7 @@ from geometry_msgs.msg import Twist
 
 ns_host = zmqros.get_ns_host()
 ns_port = zmqros.get_ns_port()
-names = ["test"]
+names = ["gonzo", "test"]
 
 
 def run():

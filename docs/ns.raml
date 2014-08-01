@@ -15,7 +15,7 @@ traits:
                 body:
                     application/json:
                         schema:
-                            [<String>,...]
+                            [<String>, ...]
 
 /id:
     is: [ cross ]
@@ -42,6 +42,9 @@ traits:
         description: |
             Route that allows for robots to periodically check in with
             the name server to show that they are still running
+        body:
+            application/json:
+                schema: {"name": <String>}
         responses:
             200:
                 body:
@@ -62,6 +65,9 @@ traits:
     /create:
         post:
             description: Dynamically allocates addresses for ZeroMQ sockets
+            body:
+                application/json:
+                    schema: {"names": [<String>, ...]}
             responses:
                 200:
                     body:
@@ -83,6 +89,17 @@ traits:
             description: |
                 Route that frees ports used by an application that
                 communicates with a swarm through ZeroMQ
+            body:
+                application/json:
+                    schema:
+                        {
+                            "swarm": [
+                                {
+                                    "port": <Int>,
+                                    "name": <String>
+                                }, ...
+                            ]
+                        }
             responses:
                 200:
                     body:

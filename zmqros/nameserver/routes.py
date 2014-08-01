@@ -14,7 +14,7 @@ def create_swarm():
     Dynamically allocates ports for ZeroMQ channels
 
     Input: {
-        "names": <String: List of robot names in the swarm>
+        "names": [<String: List of robot names in the swarm>, ...]
     }
 
     Output: {

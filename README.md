@@ -56,7 +56,11 @@ every computer running ZeroMQ-ROS.
 ### Database
 
 Wherever you choose to run the name server, you must also be running a RethinkDB database.
-This database stores the names and identification numbers of the agents you wish to control.
+This database stores the names and identification numbers of the agents you wish the name
+server to supervise. For instance, if you work in a robotics lab, the database
+will contain all of the names of the robots in your lab along with some identification number.
+All of the names in the database do not need to be used at the same time, they are just there
+for reference by the name server.
 These names need to be known a priori for more efficient swarm creation and name allocation.
 To do this run
 

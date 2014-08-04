@@ -1,0 +1,63 @@
+2014-08-04T11:13:49.540087002 0.163598s info: Creating directory /home/wallar/Documents/Projects/zeromq-ros/rethinkdb_data
+2014-08-04T11:13:49.540226414 0.163738s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/wallar/Documents/Projects/zeromq-ros/rethinkdb_data' did not already exist.)
+2014-08-04T11:13:49.540247510 0.163759s info: Running rethinkdb 1.13.3-0ubuntu1~trusty (GCC 4.8.2)...
+2014-08-04T11:13:49.541789189 0.165301s info: Running on Linux 3.13.0-27-generic x86_64
+2014-08-04T11:13:49.541818614 0.165330s info: Using cache size of 4181 MB
+2014-08-04T11:13:49.541973193 0.165484s info: Loading data from directory /home/wallar/Documents/Projects/zeromq-ros/rethinkdb_data
+2014-08-04T11:13:50.376567399 1.000079s error: Could not bind to cluster port: The address at localhost:29015 is reserved or already in use.
+2014-08-04T11:14:06.908306930 0.041515s info: Running rethinkdb 1.13.3-0ubuntu1~trusty (GCC 4.8.2)...
+2014-08-04T11:14:06.914199659 0.047408s info: Running on Linux 3.13.0-27-generic x86_64
+2014-08-04T11:14:06.914329759 0.047538s info: Using cache size of 4178 MB
+2014-08-04T11:14:06.914798632 0.048007s info: Loading data from directory /home/wallar/Documents/Projects/zeromq-ros/rethinkdb_data
+2014-08-04T11:14:07.025834558 0.159043s error: Could not bind to cluster port: The address at localhost:29015 is reserved or already in use.
+2014-08-04T11:14:40.619757744 0.026449s info: Running rethinkdb 1.13.3-0ubuntu1~trusty (GCC 4.8.2)...
+2014-08-04T11:14:40.623833401 0.030525s info: Running on Linux 3.13.0-27-generic x86_64
+2014-08-04T11:14:40.623869995 0.030561s info: Using cache size of 4180 MB
+2014-08-04T11:14:40.624053202 0.030745s info: Loading data from directory /home/wallar/Documents/Projects/zeromq-ros/rethinkdb_data
+2014-08-04T11:14:40.726183631 0.132875s info: Listening for intracluster connections on port 29015
+2014-08-04T11:14:40.726796984 0.133488s info: Listening for client driver connections on port 28015
+2014-08-04T11:14:40.726864905 0.133556s info: Listening for administrative HTTP connections on port 8080
+2014-08-04T11:14:40.730115180 0.136807s info: Listening on addresses: 127.0.0.1, 132.250.85.150, ::1, 2002:84fa:5531:d:d2d:2ce:a4e1:fe07, 2002:84fa:5531:d:1c04:e6fc:739e:835d, 2002:84fa:5531:d:56ee:75ff:fe10:7a99, 2002:84fa:5531:d:614a:4220:a753:ef38, 2002:84fa:5531:d:f003:4dea:7d26:93b2, fe80::56ee:75ff:fe10:7a99%2, fec0::d:d2d:2ce:a4e1:fe07, fec0::d:1c04:e6fc:739e:835d, fec0::d:56ee:75ff:fe10:7a99, fec0::d:614a:4220:a753:ef38, fec0::d:f003:4dea:7d26:93b2
+2014-08-04T11:14:40.730123033 0.136814s info: Server ready
+2014-08-04T11:14:41.829883660 1.236575s info: Server got SIGINT from pid 0, uid 0; shutting down...
+2014-08-04T11:14:41.830034564 1.236726s info: Shutting down client connections...
+2014-08-04T11:14:41.830237100 1.236928s info: All client connections closed.
+2014-08-04T11:14:41.830240370 1.236932s info: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2014-08-04T11:14:41.830243029 1.236934s info: Storage engine shut down.
+2014-08-04T11:14:43.551405221 0.059150s info: Running rethinkdb 1.13.3-0ubuntu1~trusty (GCC 4.8.2)...
+2014-08-04T11:14:43.553696451 0.061442s info: Running on Linux 3.13.0-27-generic x86_64
+2014-08-04T11:14:43.553731012 0.061476s info: Using cache size of 4181 MB
+2014-08-04T11:14:43.553910669 0.061656s info: Loading data from directory /home/wallar/Documents/Projects/zeromq-ros/rethinkdb_data
+2014-08-04T11:14:43.599460940 0.107206s info: Listening for intracluster connections on port 29015
+2014-08-04T11:14:43.600007638 0.107753s info: Listening for client driver connections on port 28015
+2014-08-04T11:14:43.600049491 0.107795s info: Listening for administrative HTTP connections on port 8080
+2014-08-04T11:14:43.603175549 0.110921s info: Listening on addresses: 127.0.0.1, 132.250.85.150, ::1, 2002:84fa:5531:d:d2d:2ce:a4e1:fe07, 2002:84fa:5531:d:1c04:e6fc:739e:835d, 2002:84fa:5531:d:56ee:75ff:fe10:7a99, 2002:84fa:5531:d:614a:4220:a753:ef38, 2002:84fa:5531:d:f003:4dea:7d26:93b2, fe80::56ee:75ff:fe10:7a99%2, fec0::d:d2d:2ce:a4e1:fe07, fec0::d:1c04:e6fc:739e:835d, fec0::d:56ee:75ff:fe10:7a99, fec0::d:614a:4220:a753:ef38, fec0::d:f003:4dea:7d26:93b2
+2014-08-04T11:14:43.603182059 0.110927s info: Server ready
+2014-08-04T16:30:11.694362449 18928.202108s info: Server got SIGTERM from pid 6772, uid 1001; shutting down...
+2014-08-04T16:30:11.694548289 18928.202293s info: Shutting down client connections...
+2014-08-04T16:30:11.695031799 18928.202777s info: All client connections closed.
+2014-08-04T16:30:11.695035407 18928.202781s info: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2014-08-04T16:30:11.698168081 18928.205913s info: Storage engine shut down.
+2014-08-04T16:37:05.734491262 0.343671s info: Running rethinkdb 1.13.3-0ubuntu1~trusty (GCC 4.8.2)...
+2014-08-04T16:37:05.736678617 0.345858s info: Running on Linux 3.13.0-27-generic x86_64
+2014-08-04T16:37:05.736711415 0.345891s info: Using cache size of 3792 MB
+2014-08-04T16:37:05.736860910 0.346040s info: Loading data from directory /home/wallar/Documents/Projects/zeromq-ros/rethinkdb_data
+2014-08-04T16:37:05.843583351 0.452763s info: Listening for intracluster connections on port 29015
+2014-08-04T16:37:05.844632479 0.453812s info: Listening for client driver connections on port 28015
+2014-08-04T16:37:05.844717618 0.453897s info: Listening for administrative HTTP connections on port 8080
+2014-08-04T16:37:05.848281292 0.457461s info: Listening on addresses: 127.0.0.1, 132.250.85.150, ::1, 2002:84fa:5531:d:d2d:2ce:a4e1:fe07, 2002:84fa:5531:d:1c04:e6fc:739e:835d, 2002:84fa:5531:d:56ee:75ff:fe10:7a99, 2002:84fa:5531:d:614a:4220:a753:ef38, 2002:84fa:5531:d:a595:c36e:e8bc:8228, 2002:84fa:5531:d:f003:4dea:7d26:93b2, fe80::56ee:75ff:fe10:7a99%2, fec0::d:d2d:2ce:a4e1:fe07, fec0::d:1c04:e6fc:739e:835d, fec0::d:56ee:75ff:fe10:7a99, fec0::d:614a:4220:a753:ef38, fec0::d:a595:c36e:e8bc:8228, fec0::d:f003:4dea:7d26:93b2
+2014-08-04T16:37:05.848289455 0.457469s info: Server ready
+2014-08-04T16:37:06.939029251 1.548209s info: Server got SIGINT from pid 0, uid 0; shutting down...
+2014-08-04T16:37:06.939216469 1.548396s info: Shutting down client connections...
+2014-08-04T16:37:06.939413881 1.548593s info: All client connections closed.
+2014-08-04T16:37:06.939418165 1.548597s info: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2014-08-04T16:37:06.958219659 1.567399s info: Storage engine shut down.
+2014-08-04T16:37:08.726530336 0.035853s info: Running rethinkdb 1.13.3-0ubuntu1~trusty (GCC 4.8.2)...
+2014-08-04T16:37:08.728345089 0.037668s info: Running on Linux 3.13.0-27-generic x86_64
+2014-08-04T16:37:08.728386532 0.037709s info: Using cache size of 3792 MB
+2014-08-04T16:37:08.728556453 0.037879s info: Loading data from directory /home/wallar/Documents/Projects/zeromq-ros/rethinkdb_data
+2014-08-04T16:37:08.805810485 0.115133s info: Listening for intracluster connections on port 29015
+2014-08-04T16:37:08.806345387 0.115668s info: Listening for client driver connections on port 28015
+2014-08-04T16:37:08.806388586 0.115711s info: Listening for administrative HTTP connections on port 8080
+2014-08-04T16:37:08.809794112 0.119117s info: Listening on addresses: 127.0.0.1, 132.250.85.150, ::1, 2002:84fa:5531:d:d2d:2ce:a4e1:fe07, 2002:84fa:5531:d:1c04:e6fc:739e:835d, 2002:84fa:5531:d:56ee:75ff:fe10:7a99, 2002:84fa:5531:d:614a:4220:a753:ef38, 2002:84fa:5531:d:a595:c36e:e8bc:8228, 2002:84fa:5531:d:f003:4dea:7d26:93b2, fe80::56ee:75ff:fe10:7a99%2, fec0::d:d2d:2ce:a4e1:fe07, fec0::d:1c04:e6fc:739e:835d, fec0::d:56ee:75ff:fe10:7a99, fec0::d:614a:4220:a753:ef38, fec0::d:a595:c36e:e8bc:8228, fec0::d:f003:4dea:7d26:93b2
+2014-08-04T16:37:08.809801254 0.119124s info: Server ready

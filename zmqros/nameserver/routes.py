@@ -239,11 +239,20 @@ def get_id_by_name(name):
 @util.crossdomain(origin="*")
 def get_all_names():
     """
-    Gets the names of all the alive robots
+    Gets the names of all the robots
 
     Input: None
 
     Output: [<String: Name>, ...]
 
     """
-    return json.dumps(config.live_robots.keys())
+    return json.dumps(config.store.get_names())
+
+
+@config.app.route("/add", methods=["POST"])
+@util.crossdomain(origin="*")
+def add_robot():
+    name = request.form["name"]
+    bot_id = request.form["id"]
+    db_out = config.store.add(name, bot_id)
+    return json.dumps(db_out)

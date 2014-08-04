@@ -1,6 +1,5 @@
 
 import master
-import json
 import ns
 import atexit
 
@@ -78,9 +77,13 @@ class open_swarm(object):
 swarms_ref = dict()
 
 
-def create_swarm_from_ns(ns_host, ns_port, names):
+def create_swarm_from_ns(ns_host, ns_port, names=None):
     global swarms
     nserver = ns.NameServer(ns_host, ns_port)
+
+    if names is None:
+        names = nserver.get_names()
+
     host, ports = nserver.create_swarm(names)
     swarm = Swarm(host)
 

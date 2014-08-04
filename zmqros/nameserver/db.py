@@ -69,5 +69,21 @@ class Db(object):
         return addr_data
 
     def get_id_by_name(self, name):
-        addr_data = self.get_address(name)
+        conn = self.connect()
+        addr_data = self.get_table(self.config_table_name)\
+            .get_all(name, index=self.secondary_index).nth(0).run(conn)
+
         return addr_data["id"]
+
+    def add(self, name, robot_id):
+        conn = self.connect()
+        db_out = self.get_table(self.config_table_name)\
+            .insert({"id": int(robot_id), "name": str(name)}).run(conn)
+
+        return db_out
+
+    def get_names(self):
+        conn = self.connect()
+        bot_dicts = self.get_table(self.config_table_name).run(conn)
+        return map(lambda bot_dict: bot_dict["name"], bot_dicts)
+

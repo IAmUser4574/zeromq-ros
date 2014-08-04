@@ -14,6 +14,13 @@ def serve_html_Page(filename):
     return render_template(filename)
 
 
+@config.app.route("/add", methods=["GET"])
+def get_add_page():
+    ns_host = zmqros.get_ns_host()
+    ns_port = zmqros.get_ns_port()
+    return render_template("add.html", host=ns_host, port=ns_port)
+
+
 @config.app.route("/", methods=["GET"])
 def serve_index():
     ns_host = zmqros.get_ns_host()

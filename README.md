@@ -40,6 +40,7 @@ to have in your swarm**
 2. Follow instructions for installation on Ubuntu
     
 ## Setting up the middleware
+### Environment Variables
 
 In order to use ZeroMQ-ROS, you must set a few environmental variables. These can
 be set by exporting environmental variables in the terminal every time you start a
@@ -51,6 +52,24 @@ every computer running ZeroMQ-ROS.
 - `ZMQROS_NS_PORT` -- Port of the naming service
 - `ZMQROS_ROBOT_ID` -- A unique identifying name of the robot running ZeroMQ-ROS
 - `ZMQROS_ROOT` -- The location of the root directory of the ZeroMQ-ROS installation
+
+### Database
+
+Wherever you choose to run the name server, you must also be running a RethinkDB database.
+This database stores the names and identification numbers of the agents you wish to control.
+These names need to be known a priori for more efficient swarm creation and name allocation.
+To do this run
+
+    $ rethinkdb --bind all
+
+This will run the RethinkDB instance. In order to populate the database, run the Zui, the
+ZeroMQ-ROS UI runnning,
+
+    $ zmqros --ui
+    
+Then to populate the database visit, `localhost:9000/add`. The website will ask you for the
+robot names and an identification number. This is useful so that you can link the robot
+to IP addresses, Vicon identification and so on.
 
 ## Running
 

@@ -2,4 +2,8 @@
 
 - [Github Repository](http://github.com/wallarelvo/zeromq-ros)
 
-## Created by Alex Wallar
+## [Architecture](#architecture)
+- [Agents](#agents)
+- [Coordinators](#coordinators)
+
+#### Created by Alex Wallar

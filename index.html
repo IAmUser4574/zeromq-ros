@@ -1,44 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Zeromq-ros by wallarelvo</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
     <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+    <title>ZeroMQ-ROS Middlware by wallarelvo</title>
   </head>
+
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/wallarelvo/zeromq-ros">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/wallarelvo/zeromq-ros/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/wallarelvo/zeromq-ros/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+    <header>
+      <div class="inner">
+        <h1>ZeroMQ-ROS Middlware</h1>
+        <h2>ROS Wrapper Using ZeroMQ</h2>
+        <a href="https://github.com/wallarelvo/zeromq-ros" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
 
-    <div class="wrapper">
-
-      <section>
-        <div id="title">
-          <h1>Zeromq-ros</h1>
-          <p>ROS Wrapper Using ZeroMQ</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/wallarelvo">wallarelvo</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
-
-        <h1>
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
 <a name="zeromq-ros" class="anchor" href="#zeromq-ros"><span class="octicon octicon-link"></span></a>ZeroMQ-ROS</h1>
 
 <p>ZeroMQ-ROS is a middleware that allows for the control of multiple ROS masters from
@@ -46,51 +36,55 @@ a single coordinator and makes it easy to create swarm applications using the st
 ROS framework. ZeroMQ-ROS uses the ZeroMQ message queue to communicate between the coordinator
 and the agents.</p>
 
-<h2>
-<a name="architecture" class="anchor" href="#architecture"><span class="octicon octicon-link"></span></a>Architecture</h2>
+<h1>
+<a name="architecture" class="anchor" href="#architecture"><span class="octicon octicon-link"></span></a>Architecture</h1>
 
-<h4>
-<a name="agents" class="anchor" href="#agents"><span class="octicon octicon-link"></span></a>Agents</h4>
+<h2>
+<a name="agents" class="anchor" href="#agents"><span class="octicon octicon-link"></span></a>Agents</h2>
 
 <p>Agents are members of the swarm that will be controlled by a coordinator. They are referenced by
 a unique identifying name and listen for JSON serialized ROS messages on a message queue. These
 serialized messages are then constructed into ROS messages and published to the associated topic.</p>
 
-<h4>
-<a name="coordinators" class="anchor" href="#coordinators"><span class="octicon octicon-link"></span></a>Coordinators</h4>
+<h2>
+<a name="coordinators" class="anchor" href="#coordinators"><span class="octicon octicon-link"></span></a>Coordinators</h2>
 
 <p>Coordinators are the controllers of the swarm. They can send JSON serialized ROS messages to agents
-that get published to the associated topic on the agent's ROS master.</p>
+that get published to the associated topic on the agent's ROS master. To enable bi-directional,
+coordinators can also be agents and listen for messages.</p>
 
-<h4>
-<a name="naming-service" class="anchor" href="#naming-service"><span class="octicon octicon-link"></span></a>Naming service</h4>
+<h2>
+<a name="naming-service" class="anchor" href="#naming-service"><span class="octicon octicon-link"></span></a>Naming service</h2>
 
 <p>The naming service is used to associate a robot's unique name to a host and port of the ZeroMQ
 message queue. This is vital for having dynamic swarm membership because instead of manually sharing
 a configuration file, a persistent, centralized server runs that holds all of this information. Also,
 the naming service holds a record of what agents are currently <em>alive</em> and able to be used.</p>
 
-<h2>
-<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
+<h1>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h1>
 
 <p><strong>[Warning] You must already have ROS installed on all machines you would like
 to have in your swarm</strong></p>
 
-<h4>
-<a name="ubuntu" class="anchor" href="#ubuntu"><span class="octicon octicon-link"></span></a>Ubuntu</h4>
+<h2>
+<a name="ubuntu" class="anchor" href="#ubuntu"><span class="octicon octicon-link"></span></a>Ubuntu</h2>
 
 <pre><code>$ git clone https://github.com/wallarelvo/zeromq-ros.git
 $ make
 </code></pre>
 
-<h4>
-<a name="other-distributions" class="anchor" href="#other-distributions"><span class="octicon octicon-link"></span></a>Other distributions</h4>
+<h2>
+<a name="other-distributions" class="anchor" href="#other-distributions"><span class="octicon octicon-link"></span></a>Other distributions</h2>
 
 <ol>
 <li>Install Ubuntu</li>
 <li>Follow instructions for installation on Ubuntu</li>
-</ol><h2>
-<a name="setting-up-the-middleware" class="anchor" href="#setting-up-the-middleware"><span class="octicon octicon-link"></span></a>Setting up the middleware</h2>
+</ol><h1>
+<a name="setting-up-the-middleware" class="anchor" href="#setting-up-the-middleware"><span class="octicon octicon-link"></span></a>Setting up the middleware</h1>
+
+<h2>
+<a name="environment-variables" class="anchor" href="#environment-variables"><span class="octicon octicon-link"></span></a>Environment Variables</h2>
 
 <p>In order to use ZeroMQ-ROS, you must set a few environmental variables. These can
 be set by exporting environmental variables in the terminal every time you start a
@@ -108,12 +102,38 @@ every computer running ZeroMQ-ROS.</p>
 <li>
 <code>ZMQROS_ROOT</code> -- The location of the root directory of the ZeroMQ-ROS installation</li>
 </ul><h2>
-<a name="running" class="anchor" href="#running"><span class="octicon octicon-link"></span></a>Running</h2>
+<a name="database" class="anchor" href="#database"><span class="octicon octicon-link"></span></a>Database</h2>
+
+<p>Wherever you choose to run the name server, you must also be running a RethinkDB database.
+This database stores the names and identification numbers of the agents you wish the name
+server to supervise. For instance, if you work in a robotics lab, the database
+will contain all of the names of the robots in your lab along with some identification number.
+All of the names in the database do not need to be used at the same time, they are just there
+for reference by the name server.
+These names need to be known a priori for more efficient swarm creation and name allocation.
+To do this run</p>
+
+<pre><code>$ rethinkdb --bind all
+</code></pre>
+
+<p>This will run the RethinkDB instance. In order to populate the database, run Zui, the
+ZeroMQ-ROS UI running,</p>
+
+<pre><code>$ zmqros --ui
+</code></pre>
+
+<p>Then to populate the database visit, <code>localhost:9000/add</code>. The website will ask you for the
+robot names and an identification number. This is useful so that you can link the robot
+to IP addresses, Vicon identification and so on.</p>
+
+<h1>
+<a name="running" class="anchor" href="#running"><span class="octicon octicon-link"></span></a>Running</h1>
 
 <ol>
 <li>First run the name server and populate the database with robot information. This step does 
 not need to occur every time you run the swarm, however, the name server needs to be running for
-agents and coordinator nodes to function.
+agents and coordinators to communicate. The agents and the coordinators need to have their
+environment variables pointing to the address and port the name server will be running from.
 
 <ul>
 <li><code>$ zmqros --ns</code></li>
@@ -128,41 +148,68 @@ the agent program must be running.
 </ul>
 </li>
 <li>Run the coordinator code from where ever the coordinator is located.</li>
-</ol><h2>
-<a name="coordinator-example" class="anchor" href="#coordinator-example"><span class="octicon octicon-link"></span></a>Coordinator example</h2>
+<li>(Optional) Now you are able to control the swarm. To look at properties in the swarm, run Zui, the web app for the
+middleware. Using Zui, you will be able to look at the members of the swarm that are currently alive and
+send ROS messages to them through a GUI.
+
+<ul>
+<li><code>$ zmqros --ui</code></li>
+</ul>
+</li>
+</ol><h1>
+<a name="coordinator-example" class="anchor" href="#coordinator-example"><span class="octicon octicon-link"></span></a>Coordinator example</h1>
 
 <div class="highlight highlight-python"><pre><span class="kn">import</span> <span class="nn">zmqros</span>
+<span class="kn">from</span> <span class="nn">zmqros.coordinator</span> <span class="kn">import</span> <span class="n">open_swarm</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">geometry_msgs.msg</span> <span class="kn">import</span> <span class="n">Twist</span>
 
 <span class="n">ns_host</span> <span class="o">=</span> <span class="n">zmqros</span><span class="o">.</span><span class="n">get_ns_host</span><span class="p">()</span>
 <span class="n">ns_port</span> <span class="o">=</span> <span class="n">zmqros</span><span class="o">.</span><span class="n">get_ns_port</span><span class="p">()</span>
-<span class="n">swarm</span> <span class="o">=</span> <span class="n">zmqros</span><span class="o">.</span><span class="n">coordinator</span><span class="o">.</span><span class="n">create_swarm_from_ns</span><span class="p">(</span><span class="n">ns_host</span><span class="p">,</span> <span class="n">ns_port</span><span class="p">)</span>
+<span class="n">nserver</span> <span class="o">=</span> <span class="n">zmqros</span><span class="o">.</span><span class="n">coordinator</span><span class="o">.</span><span class="n">NameServer</span><span class="p">(</span><span class="n">ns_host</span><span class="p">,</span> <span class="n">ns_port</span><span class="p">)</span>
+<span class="n">names</span> <span class="o">=</span> <span class="n">nserver</span><span class="o">.</span><span class="n">get_names</span><span class="p">()</span>
 
 
 <span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
-    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">swarm</span><span class="o">.</span><span class="n">get_bots</span><span class="p">():</span>
-            <span class="n">t</span> <span class="o">=</span> <span class="n">Twist</span><span class="p">()</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">open_swarm</span><span class="p">(</span><span class="n">ns_host</span><span class="p">,</span> <span class="n">ns_port</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span> <span class="k">as</span> <span class="n">swarm</span><span class="p">:</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">swarm</span><span class="o">.</span><span class="n">get_bots</span><span class="p">():</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">Twist</span><span class="p">()</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
 
-            <span class="n">bot</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">"geometry_msgs/Twist"</span><span class="p">,</span> <span class="s">"/cmd_vel"</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+                <span class="n">bot</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">"geometry_msgs/Twist"</span><span class="p">,</span> <span class="s">"/cmd_vel"</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
 
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
     <span class="n">run</span><span class="p">()</span>
-</pre></div>
-      </section>
 
+</pre></div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/wallarelvo/zeromq-ros/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/wallarelvo/zeromq-ros/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/wallarelvo/zeromq-ros"></a> is maintained by <a href="https://github.com/wallarelvo">wallarelvo</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
+
+  
   </body>
 </html>

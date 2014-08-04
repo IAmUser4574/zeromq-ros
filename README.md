@@ -16,7 +16,8 @@ serialized messages are then constructed into ROS messages and published to the 
 #### Coordinators
 
 Coordinators are the controllers of the swarm. They can send JSON serialized ROS messages to agents
-that get published to the associated topic on the agent's ROS master.
+that get published to the associated topic on the agent's ROS master. To enable bi-directional,
+coordinators can also be agents and listen for messages.
 
 #### Naming service
 

@@ -13,9 +13,6 @@ class Connection(Connection_):
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-
-store = None
-
 #  Stores the robots that are currently sending heartbeat messages
 live_robots = dict()
 

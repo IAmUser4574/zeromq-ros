@@ -1,34 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <title>ZeroMQ-ROS Middlware by wallarelvo</title>
 
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <title>ZeroMQ-ROS Middlware by wallarelvo</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>ZeroMQ-ROS Middlware</h1>
-        <h2>ROS Wrapper Using ZeroMQ</h2>
-        <a href="https://github.com/wallarelvo/zeromq-ros" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">ZeroMQ-ROS Middlware</h1>
+        <p class="header">ROS Wrapper Using ZeroMQ</p>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/wallarelvo/zeromq-ros/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/wallarelvo/zeromq-ros/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/wallarelvo/zeromq-ros">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/wallarelvo">wallarelvo</a></p>
+
+
+      </header>
+      <section>
+        <h1>
 <a name="zeromq-ros" class="anchor" href="#zeromq-ros"><span class="octicon octicon-link"></span></a>ZeroMQ-ROS</h1>
 
 <p>ZeroMQ-ROS is a middleware that allows for the control of multiple ROS masters from
@@ -36,55 +38,55 @@ a single coordinator and makes it easy to create swarm applications using the st
 ROS framework. ZeroMQ-ROS uses the ZeroMQ message queue to communicate between the coordinator
 and the agents.</p>
 
-<h1>
-<a name="architecture" class="anchor" href="#architecture"><span class="octicon octicon-link"></span></a>Architecture</h1>
-
 <h2>
-<a name="agents" class="anchor" href="#agents"><span class="octicon octicon-link"></span></a>Agents</h2>
+<a name="architecture" class="anchor" href="#architecture"><span class="octicon octicon-link"></span></a>Architecture</h2>
+
+<h3>
+<a name="agents" class="anchor" href="#agents"><span class="octicon octicon-link"></span></a>Agents</h3>
 
 <p>Agents are members of the swarm that will be controlled by a coordinator. They are referenced by
 a unique identifying name and listen for JSON serialized ROS messages on a message queue. These
 serialized messages are then constructed into ROS messages and published to the associated topic.</p>
 
-<h2>
-<a name="coordinators" class="anchor" href="#coordinators"><span class="octicon octicon-link"></span></a>Coordinators</h2>
+<h3>
+<a name="coordinators" class="anchor" href="#coordinators"><span class="octicon octicon-link"></span></a>Coordinators</h3>
 
 <p>Coordinators are the controllers of the swarm. They can send JSON serialized ROS messages to agents
 that get published to the associated topic on the agent's ROS master. To enable bi-directional,
 coordinators can also be agents and listen for messages.</p>
 
-<h2>
-<a name="naming-service" class="anchor" href="#naming-service"><span class="octicon octicon-link"></span></a>Naming service</h2>
+<h3>
+<a name="naming-service" class="anchor" href="#naming-service"><span class="octicon octicon-link"></span></a>Naming service</h3>
 
 <p>The naming service is used to associate a robot's unique name to a host and port of the ZeroMQ
 message queue. This is vital for having dynamic swarm membership because instead of manually sharing
 a configuration file, a persistent, centralized server runs that holds all of this information. Also,
 the naming service holds a record of what agents are currently <em>alive</em> and able to be used.</p>
 
-<h1>
-<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h1>
+<h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
 
 <p><strong>[Warning] You must already have ROS installed on all machines you would like
 to have in your swarm</strong></p>
 
-<h2>
-<a name="ubuntu" class="anchor" href="#ubuntu"><span class="octicon octicon-link"></span></a>Ubuntu</h2>
+<h3>
+<a name="ubuntu" class="anchor" href="#ubuntu"><span class="octicon octicon-link"></span></a>Ubuntu</h3>
 
 <pre><code>$ git clone https://github.com/wallarelvo/zeromq-ros.git
 $ make
 </code></pre>
 
-<h2>
-<a name="other-distributions" class="anchor" href="#other-distributions"><span class="octicon octicon-link"></span></a>Other distributions</h2>
+<h3>
+<a name="other-distributions" class="anchor" href="#other-distributions"><span class="octicon octicon-link"></span></a>Other distributions</h3>
 
 <ol>
 <li>Install Ubuntu</li>
 <li>Follow instructions for installation on Ubuntu</li>
-</ol><h1>
-<a name="setting-up-the-middleware" class="anchor" href="#setting-up-the-middleware"><span class="octicon octicon-link"></span></a>Setting up the middleware</h1>
+</ol><h2>
+<a name="setting-up-the-middleware" class="anchor" href="#setting-up-the-middleware"><span class="octicon octicon-link"></span></a>Setting up the middleware</h2>
 
-<h2>
-<a name="environment-variables" class="anchor" href="#environment-variables"><span class="octicon octicon-link"></span></a>Environment Variables</h2>
+<h3>
+<a name="environment-variables" class="anchor" href="#environment-variables"><span class="octicon octicon-link"></span></a>Environment Variables</h3>
 
 <p>In order to use ZeroMQ-ROS, you must set a few environmental variables. These can
 be set by exporting environmental variables in the terminal every time you start a
@@ -101,8 +103,8 @@ every computer running ZeroMQ-ROS.</p>
 <code>ZMQROS_ROBOT_ID</code> -- A unique identifying name of the robot running ZeroMQ-ROS</li>
 <li>
 <code>ZMQROS_ROOT</code> -- The location of the root directory of the ZeroMQ-ROS installation</li>
-</ul><h2>
-<a name="database" class="anchor" href="#database"><span class="octicon octicon-link"></span></a>Database</h2>
+</ul><h3>
+<a name="database" class="anchor" href="#database"><span class="octicon octicon-link"></span></a>Database</h3>
 
 <p>Wherever you choose to run the name server, you must also be running a RethinkDB database.
 This database stores the names and identification numbers of the agents you wish the name
@@ -126,8 +128,8 @@ ZeroMQ-ROS UI running,</p>
 robot names and an identification number. This is useful so that you can link the robot
 to IP addresses, Vicon identification and so on.</p>
 
-<h1>
-<a name="running" class="anchor" href="#running"><span class="octicon octicon-link"></span></a>Running</h1>
+<h2>
+<a name="running" class="anchor" href="#running"><span class="octicon octicon-link"></span></a>Running</h2>
 
 <ol>
 <li>First run the name server and populate the database with robot information. This step does 
@@ -156,8 +158,8 @@ send ROS messages to them through a GUI.
 <li><code>$ zmqros --ui</code></li>
 </ul>
 </li>
-</ol><h1>
-<a name="coordinator-example" class="anchor" href="#coordinator-example"><span class="octicon octicon-link"></span></a>Coordinator example</h1>
+</ol><h2>
+<a name="coordinator-example" class="anchor" href="#coordinator-example"><span class="octicon octicon-link"></span></a>Coordinator example</h2>
 
 <div class="highlight highlight-python"><pre><span class="kn">import</span> <span class="nn">zmqros</span>
 <span class="kn">from</span> <span class="nn">zmqros.coordinator</span> <span class="kn">import</span> <span class="n">open_swarm</span>
@@ -191,25 +193,12 @@ send ROS messages to them through a GUI.
     <span class="n">run</span><span class="p">()</span>
 
 </pre></div>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/wallarelvo/zeromq-ros/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/wallarelvo/zeromq-ros/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/wallarelvo/zeromq-ros"></a> is maintained by <a href="https://github.com/wallarelvo">wallarelvo</a>.</p>
-
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
     </div>
-
-  
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
   </body>
 </html>

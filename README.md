@@ -11,10 +11,10 @@ and the agents.
 **[Warning] You must already have ROS installed on all machines you would like
 to have in your swarm**
 
-### Ubuntu
+#### Ubuntu
     $ git clone https://github.com/wallarelvo/zeromq-ros.git
     $ make
     
-### Other distributions
+#### Other distributions
 1. Install Ubuntu
 2. Follow instructions for installation on Ubuntu
